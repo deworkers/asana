@@ -1,9 +1,14 @@
 import './index.less'
 
 import Vue from 'vue'
-import App from './App.vue'
+import Vuex from 'vuex'
+Vue.use(Vuex)
 
-var checkout = new Vue({
+import App from './App.vue'
+import { store } from "./store";
+
+var app = new Vue({
+    store: store,
     render: function (h) {
         return h(App);
     }

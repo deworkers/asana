@@ -1,11 +1,13 @@
 <template>
     <div class="mainLayer">
         <Sidebar></Sidebar>
+        <Page></Page>
     </div>
 </template>
 
 <script>
-    import Sidebar from './components/Sidebar.vue';
+    import Sidebar from './components/sidebar/Sidebar.vue';
+    import Page from './components/page/Page.vue';
 
     export default {
         name: 'App',
@@ -15,14 +17,15 @@
             }
         },
         components: {
-            Sidebar
+            Sidebar,
+            Page
         },
         computed: {
         },
         methods: {
             
         },
-        mounted: function mounted() {
+        mounted() {
             
         }
     }

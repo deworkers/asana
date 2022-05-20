@@ -1,5 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+
 
 module.exports = {
     mode: 'development',
@@ -15,10 +17,9 @@ module.exports = {
                 loader: 'vue-loader'
             },
             {
-                test: /\.less$/i,
+                test: /\.less$/,
                 use: [
-                  // compiles Less to CSS
-                  "style-loader",
+                  MiniCssExtractPlugin.loader,
                   "css-loader",
                   "less-loader",
                 ],
@@ -35,7 +36,7 @@ module.exports = {
         ]
     },
     plugins: [
-        //new VueLoaderPlugin()
+        new MiniCssExtractPlugin(),
     ],
     resolve: {
         alias: {

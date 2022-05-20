@@ -1,9 +1,9 @@
 <template>
-    <div id="sidebar" class="sidebar">
+    <div id="sidebar" class="sidebar" v-if="showSide">
         <div class="Sidebar sidebarRoot">
             <div class="SidebarHeader">
                 <a aria-label="На главную страницу Asana" class="SidebarHeader-Logo BaseLink" href="#">Asana</a>
-                <button class="SideBurgerIcon SidebarHeader-sideBurgerIcon" aria-label="Скрыть боковую панель">
+                <button class="SideBurgerIcon SidebarHeader-sideBurgerIcon" aria-label="Скрыть боковую панель" @click="toogleSide">
                     <svg class="SideBurgerIcon-image" viewBox="0 0 50 32">
                         <path d="M49,4H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,4,49,4z"></path>
                         <path d="M49,16H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,16,49,16z"></path>
@@ -15,7 +15,7 @@
                 </button>
             </div>
             <div class="Sidebar-menu">
-                <a class="Sidebar-menu-one" href="#">
+                <a class="Sidebar-menu-one active" href="#">
                     <div class="Sidebar-menu-icon">
                         <i class="fa-solid fa-house"></i>
                     </div>
@@ -23,13 +23,13 @@
                 </a>
                 <a class="Sidebar-menu-one" href="#">
                     <div class="Sidebar-menu-icon">
-                        <i class="fa-solid fa-house"></i>
+                        <i class="fa-regular fa-circle-check"></i>
                     </div>
                     <div class="Sidebar-menu-name">Мои задачи</div>
                 </a>
                 <a class="Sidebar-menu-one" href="#">
                     <div class="Sidebar-menu-icon">
-                        <i class="fa-solid fa-house"></i>
+                        <i class="fa-regular fa-bell"></i>
                     </div>
                     <div class="Sidebar-menu-name">Входящие</div>
                 </a>
@@ -62,9 +62,14 @@
             
         },
         computed: {
+            showSide() {
+                return this.$store.state.showSide
+            }
         },
         methods: {
-            
+            toogleSide() {
+                this.$store.commit('toogleSide');
+            }
         },
         mounted: function mounted() {
             

@@ -1,0 +1,73 @@
+.board-card {
+	box-shadow: 0 0 0 1px #edeae9, 0 1px 4px 0 rgba(109, 110, 111, 0.08);
+    background: #fff;
+    border: 1px solid #edeae9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 7px;
+}
+
+.card-body {
+	position: relative;
+    text-indent: 24px;
+    margin-bottom: 10px;
+}
+
+.card-title {
+	line-height: 20px;
+    font-size: 14px;
+}
+
+.card-compleet {
+	position: absolute;
+    width: 16px;
+    height: 16px;
+    border: 1px solid #6f7071;
+    border-radius: 50%;
+    top: 1px;
+    left: 0;
+    cursor: pointer;
+
+    &:before {
+        content: "";
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        width: 3px;
+        height: 7px;
+        transform: rotate(45deg);
+        border-right: 1px solid #6f7071;
+        border-bottom: 1px solid #6f7071;
+    }
+
+    &.compleet {
+        background: #5da283;
+        border-color: #5da283;
+        &:before {
+            border-color: #fff;
+        }
+    }
+}
+
+.card-bottom {
+	display: flex;
+    align-items: center;
+}
+
+.cart-dueDate {
+	font-size: 14px;
+    padding: 3px;
+}
+
+.cart-dueDate--add {
+    position: relative;
+    left: -2px;
+    padding: 4px;
+    border-radius: 50%;
+    border: 1px solid transparent;
+    border-radius: 50%;
+
+    &:hover {
+        border: 1px dashed #6f7071;
+    }
+}
