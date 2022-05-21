@@ -1,5 +1,8 @@
 <template>
-    <div class="board-card">
+    <div class="board-card item">
+        <div class="card-remove" @click="removeCard">
+            <i class="fa-regular fa-trash-can"></i>
+        </div>
         <div class="card-body">
             <div class="card-title">{{card.title}}</div>
             <div 
@@ -9,21 +12,22 @@
         </div>
         <div class="card-bottom">
             <div class="cart-dueDate" v-if="card.dueDate != null">{{card.dueDate}}</div>
-            <div class="cart-dueDate cart-dueDate--add" v-if="card.dueDate == null"><i class="fa-regular fa-calendar"></i></div>
+            <div class="cart-dueDate cart-dueDate--add" v-if="card.dueDate == null"@click="showCalendar"><i class="fa-regular fa-calendar"></i></div>
         </div>
     </div>
 </template>
 
 <script>
     export default {
-        name: 'Page',
+        name: 'Card',
         data: function() {
             return {
-                
+                show: false
             }
         },
         props: {
-            card: Object
+            card: Object,
+            listName: String
         },
         components: {
 
@@ -33,6 +37,15 @@
         methods: {
             compleet() {
                 this.card.compleet = !this.card.compleet;
+            },
+            showCalendar() {
+                this.show = !this.show;
+            },
+            removeCard() {
+                this.$store.commit('removeCard', {
+                    listName: this.listName,
+                    id: this.card.id
+                });
             }
         },
         mounted() {
