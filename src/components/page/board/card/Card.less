@@ -11,6 +11,7 @@
 }
 
 .board-card {
+    transition: box-shadow 0.3s;
 	box-shadow: 0 0 0 1px #edeae9, 0 1px 4px 0 rgba(109, 110, 111, 0.08);
     background: #fff;
     border: 1px solid #edeae9;
@@ -18,8 +19,11 @@
     padding: 15px;
     margin-bottom: 7px;
     position: relative;
+    cursor: pointer;
 
     &:hover {
+        box-shadow: 0 0 0 1px #afabac, 0 2px 10px 0 rgba(109, 110, 111, 0.08);
+
         .card-remove {
             opacity: 0.5;
         }

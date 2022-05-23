@@ -4,6 +4,8 @@
     flex-direction: column;
     transition: margin-left 250ms ease-out,transform 250ms ease-out;
     width: 240px;
+    transition: all 0.3s;
+    position: relative;
 }
 
 .sidebarRoot {
@@ -87,4 +89,20 @@
 
 .Sidebar-menu-name {
     line-height: 32px;
+}
+
+.slide-enter-active {
+    margin-left: -240px;
+}
+
+.slide-enter-to {
+    margin-left: 0;
+}
+
+.slide-leave-active {
+    margin-left: 0;
+}
+
+.slide-leave-to {
+    margin-left: -240px;
 }

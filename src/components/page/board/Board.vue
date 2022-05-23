@@ -18,6 +18,7 @@
                 </draggable>
             </div>
         </div>
+        <CardDetail></CardDetail>
     </div>
 </template>
 
@@ -25,6 +26,7 @@
     import draggable from "vuedraggable";
     import Card from "./card/Card.vue";
     import AddCard from "./add-card/Add-card.vue";
+    import CardDetail from './card-detail/Card-detail.vue';
 
     export default {
         name: 'Board',
@@ -36,7 +38,8 @@
         components: {
             draggable,
             Card,
-            AddCard
+            AddCard,
+            CardDetail
         },
         computed: {
             board() {

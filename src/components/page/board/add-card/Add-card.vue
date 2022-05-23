@@ -26,7 +26,7 @@
 </template>
 
 <script>
-    import ClickOutside from 'vue-click-outside'
+    import ClickOutside from 'v-click-outside';
     
     export default {
         name: 'Add-card',
@@ -40,7 +40,7 @@
             listName: String
         },
         directives: {
-            ClickOutside
+            clickOutside: ClickOutside.directive
         },
         components: {
 
