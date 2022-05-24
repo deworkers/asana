@@ -48,7 +48,7 @@
                 });
             },
             select() {
-                this.$store.commit('showDetail', this.id);
+                this.$store.commit('showDetail', this.card);
             }
         },
         mounted() {

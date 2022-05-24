@@ -14,7 +14,7 @@ var store = new Vuex.Store({
                     {
                         id: '1',
                         title: 'Простая задача',
-                        description: '<p>Тут будет описание в виде html кода</p>',
+                        description: '',
                         compleet: true,
                         dueDate: null,
                         performer: {
@@ -56,6 +56,7 @@ var store = new Vuex.Store({
                 list: []
             }
         ],
+        cardDetail: null,
         showDetail: false
     },
     mutations: {
@@ -63,6 +64,7 @@ var store = new Vuex.Store({
             state.showSide = !state.showSide;
         },
         showDetail: function(state, payload) {
+            state.cardDetail =payload;
             state.showDetail = true;
         },
         hideDetail: function(state, payload) {
