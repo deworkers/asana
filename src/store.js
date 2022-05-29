@@ -24,14 +24,27 @@ var store = new Vuex.Store({
                                 letters: 'eb',
                                 background: '#8d84e8'
                             }
-                        }
+                        },
+                        messages: [{
+                            id: 0,
+                            period: '2 дня назад',
+                            text: '<a class="MiniStory-actor BaseLink" href="#">evgenii belyaev</a> <span class="MiniStoryActionSentence-content">переместил(а) эту задачу из столбца «В работе» в столбец «Обсуждение/Пауза» проекта «⚠️ Евгений Беляев».</span>',
+                            autor: {
+                                id: '',
+                                name: 'Беляев Евгений',
+                                avatar: {
+                                    letters: 'eb',
+                                    background: '#8d84e8'
+                                }
+                            }
+                        }]
                     },
                     {
                         id: '2',
                         title: 'Пример задачи с очень длинным названием. Настолько длинным что пока я это писал я устал и лег спать. Но она все равно влазит в карточку. Оказывается карточка безразмерная =)',
                         description: '<p>Тут будет описание в виде html кода</p>',
                         compleet: false,
-                        dueDate: '28 мая',
+                        dueDate: '2022-05-28',
                         performer: {
                             id: '',
                             name: 'Беляев Евгений',
@@ -39,7 +52,8 @@ var store = new Vuex.Store({
                                 letters: 'eb',
                                 background: '#8d84e8'
                             }
-                        }
+                        },
+                        messages: null
                     }
                 ]
             },
@@ -64,7 +78,7 @@ var store = new Vuex.Store({
             state.showSide = !state.showSide;
         },
         showDetail: function(state, payload) {
-            state.cardDetail =payload;
+            state.cardDetail = payload;
             state.showDetail = true;
         },
         hideDetail: function(state, payload) {

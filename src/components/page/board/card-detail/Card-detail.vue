@@ -7,10 +7,27 @@
                     <div class="shadow">{{title}}</div>
                     <textarea name="" v-model="title"></textarea>
                 </div>
+
                 <div class="card-detail-info">
-                    Исполнитель: {{cardDetail.performer.name}}<br>
-                    Срок выполнения: {{cardDetail.dueDate}}<br>
-                    Проекты: <br>
+                    <div class="card-detail-info__title">Исполнитель</div>
+                    <div class="card-detail-info__text">{{cardDetail.performer.name}}</div>
+                </div>
+                <div class="card-detail-info">
+                    <div class="card-detail-info__title">Срок выполнения</div>
+                    <div class="card-detail-info__text">
+                        <Calendar 
+                            :updateDate="updateDate"
+                            :dueDate="cardDetail.dueDate">
+                        </Calendar>
+                    </div>
+                </div>
+                <div class="card-detail-info">
+                    <div class="card-detail-info__title">Проекты</div>
+                    <div class="card-detail-info__text">//список проектов//</div>
+                </div>
+
+                <div class="card-detail-info">
+                    <div class="card-detail-info__title">Описание</div>
                 </div>
                 <div class="card-editor">
                     <vue-editor 
@@ -18,9 +35,8 @@
                         :editor-toolbar="customToolbar">
                     </vue-editor>
                 </div>
-                <div>
-                    
-                </div>
+
+                <MessageList :messages="cardDetail.messages"></MessageList>
                 
             </div>
             <div class="card-detail-footer">тут будет отправка сообщений</div>             
@@ -31,6 +47,8 @@
 <script>
     import ClickOutside from 'v-click-outside';
     import { VueEditor } from "vue2-editor";
+    import MessageList from './Message-list/Message-list.vue';
+    import Calendar from './calendar/Calendar.vue';
 
     export default {
         name: 'Card-detail',
@@ -46,7 +64,9 @@
             }
         },
         components: {
-            VueEditor
+            VueEditor,
+            MessageList,
+            Calendar
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -61,10 +81,12 @@
         },
         methods: {
             hide(event) {
-                console.log(event.target.className);
                 if (event.target.className !== 'card-title' && event.target.className !== 'card-bottom' && event.target.className !== 'board-card item') {
                     this.$store.commit('hideDetail');
                 }
+            },
+            updateDate(newDate) {
+                this.cardDetail.dueDate = newDate;
             }
         },
         watch: {

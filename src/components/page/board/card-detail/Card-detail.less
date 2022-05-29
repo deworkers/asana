@@ -1,3 +1,5 @@
+@import url('/node_modules/vue-date-pick/dist/vueDatePick.css');
+
 .card-detail {
     position: absolute;
     top: 0;
@@ -39,7 +41,7 @@
 
 .card-editor {
     margin-bottom: 10px;
-    padding: 15px 0px;
+    padding: 0px 0px 15px;
     & .quillWrapper:hover {
         border: 1px solid #000;
     }
@@ -111,4 +113,24 @@ div.ql-container.ql-snow {
 
 .card-detail-info {
     padding: 0 10px;
+}
+
+.card-detail-info {
+	margin-bottom: 4px;
+    display: flex;
+    flex-shrink: 0;
+    height: 36px;
+    align-items: center;
+}
+
+.card-detail-info__title {
+    width: 120px;
+    padding-right: 8px;
+    font-size: 12px;
+    line-height: 18px;
+
+}
+
+.card-detail-info__text {
+	
 }

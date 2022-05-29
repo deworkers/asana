@@ -11,13 +11,17 @@
             </div>
         </div>
         <div class="card-bottom" @click.self="select">
-            <div class="cart-dueDate" v-if="card.dueDate != null">{{card.dueDate}}</div>
-            <div class="cart-dueDate cart-dueDate--add" v-if="card.dueDate == null"@click="showCalendar"><i class="fa-regular fa-calendar"></i></div>
+            <Calendar 
+                :updateDate="updateDate"
+                :dueDate="card.dueDate">
+            </Calendar>
         </div>
     </div>
 </template>
 
 <script>
+    import Calendar from './../card-detail/calendar/Calendar.vue';
+
     export default {
         name: 'Card',
         data: function() {
@@ -30,7 +34,7 @@
             listName: String
         },
         components: {
-
+            Calendar
         },
         computed: {
         },
@@ -49,6 +53,9 @@
             },
             select() {
                 this.$store.commit('showDetail', this.card);
+            },
+            updateDate(newDate) {
+                this.card.dueDate = newDate;
             }
         },
         mounted() {
