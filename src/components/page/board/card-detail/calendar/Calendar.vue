@@ -1,5 +1,6 @@
 <template>
-    <date-pick 
+    <date-pick
+        v-model="date"
         :inputAttributes="{readonly: true}"
         :isDateDisabled="isPastDate"
         :selectableYearRange="{from: 2022, to: 2024}"
@@ -8,12 +9,18 @@
         :nextMonthCaption="nextMonthCaption"
         :prevMonthCaption="prevMonthCaption"
         :setTimeCaption="setTimeCaption"
-        :displayFormat="'DD.MM.YYYY'"
-        v-model="date">
+        :pickTime="true"
+        :format="'YYYY-MM-DD HH:mm'"
+        :displayFormat="'DD.MM.YYYY HH:mm'"
+        >
         <template v-slot:default="{toggle, inputValue}">
-            <button @click="toggle">
-                 {{ inputValue || 'Выбрать дату' }}
+            <div class="cart-dueDate cart-dueDate--add" @click="toggle" v-if="date == null">
+                <i class="fa-regular fa-calendar"></i>
+            </div>
+            <button class="date-button" @click="toggle" v-if="date != null">
+                 {{ datePharse || 'Выбрать дату' }}
             </button>
+            <button @click="clear" class="date-clear" v-if="date != null"><i class="fa-regular fa-circle-xmark"></i></button>
         </template>
     </date-pick>
 </template>
@@ -42,17 +49,24 @@
         computed: {
             cardDetail() {
                 return this.$store.state.cardDetail;
+            },
+            datePharse() {
+                return this.date;
             }
         },
         methods: {
             isPastDate(date) {
                 const currentDate = new Date();
                 return date <= currentDate;
+            },
+            clear() {
+                this.date = null;
             }
         },
         watch: {
             date(newValue, oldValue) {
                 this.$nextTick(function () {
+                    console.log(newValue);
                     this.updateDate(newValue);
                 })
             },

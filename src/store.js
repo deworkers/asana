@@ -44,7 +44,7 @@ var store = new Vuex.Store({
                         title: 'Пример задачи с очень длинным названием. Настолько длинным что пока я это писал я устал и лег спать. Но она все равно влазит в карточку. Оказывается карточка безразмерная =)',
                         description: '<p>Тут будет описание в виде html кода</p>',
                         compleet: false,
-                        dueDate: '2022-05-28',
+                        dueDate: '2022-05-31 14:30',
                         performer: {
                             id: '',
                             name: 'Беляев Евгений',
@@ -70,6 +70,8 @@ var store = new Vuex.Store({
                 list: []
             }
         ],
+        projects: [],
+        specialist: [],
         cardDetail: null,
         showDetail: false
     },

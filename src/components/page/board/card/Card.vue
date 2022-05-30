@@ -3,8 +3,8 @@
         <div class="card-remove" @click="removeCard">
             <i class="fa-regular fa-trash-can"></i>
         </div>
-        <div class="card-body" @click="select">
-            <div class="card-title">{{card.title}}</div>
+        <div class="card-body">
+            <div @click="select" class="card-title">{{card.title}}</div>
             <div 
                 :class="['card-compleet', card.compleet ? 'compleet': compleet]"
                 @click="compleet">

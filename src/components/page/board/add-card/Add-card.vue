@@ -13,9 +13,10 @@
                 <div :class="['card-compleet']"></div>
             </div>
             <div class="card-bottom">
-                <div class="cart-dueDate cart-dueDate--add">
-                    <i class="fa-regular fa-calendar"></i>
-                </div>
+                <Calendar 
+                    :updateDate="updateDate"
+                    :dueDate="dueDate">
+                </Calendar>
             </div>
         </div>
         <div class="card-add-button" @click="addCard" v-if="!showCard">
@@ -27,13 +28,15 @@
 
 <script>
     import ClickOutside from 'v-click-outside';
-    
+    import Calendar from './../card-detail/calendar/Calendar.vue';
+
     export default {
         name: 'Add-card',
         data: function() {
             return {
                 showCard: false,
-                title: ''
+                title: '',
+                dueDate: null
             }
         },
         props: {
@@ -43,7 +46,7 @@
             clickOutside: ClickOutside.directive
         },
         components: {
-
+            Calendar
         },
         computed: {
         },
@@ -63,7 +66,7 @@
                             id: randomId,
                             title: this.title,
                             compleet: false,
-                            dueDate: null,
+                            dueDate: this.dueDate,
                             performer: {
                                 id: '',
                                 name: 'Беляев Евгений',
@@ -77,6 +80,9 @@
                 }
                 this.title = '';
                 this.showCard = false;
+            },
+            updateDate(newDate) {
+                this.dueDate = newDate;
             }
         },
         mounted() {

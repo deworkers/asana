@@ -1,7 +1,7 @@
 <template>
     <transition name="slideRight">
         <div class="card-detail" v-if="showDetail" v-click-outside="hide">
-            <div class="card-detail-top">Выполнено / ссылка на задачу / закрыть</div>
+            <Top :hide="hide"></Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
                     <div class="shadow">{{title}}</div>
@@ -49,6 +49,7 @@
     import { VueEditor } from "vue2-editor";
     import MessageList from './Message-list/Message-list.vue';
     import Calendar from './calendar/Calendar.vue';
+    import Top from './top/Top.vue';
 
     export default {
         name: 'Card-detail',
@@ -66,7 +67,8 @@
         components: {
             VueEditor,
             MessageList,
-            Calendar
+            Calendar,
+            Top
         },
         directives: {
             clickOutside: ClickOutside.directive
