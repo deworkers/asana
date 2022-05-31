@@ -70,8 +70,32 @@ var store = new Vuex.Store({
                 list: []
             }
         ],
-        projects: [],
-        specialist: [],
+        projects: [
+            {
+                "id": 1,
+                "name": "Госсталь"
+            },
+            {
+                "id": 2,
+                "name": "Асана"
+            },
+            {
+                "id": 3,
+                "name": "Газпромнефть"
+            },
+           
+        ],
+        users: [
+            {
+                "id": 1,
+                "name": "Fjodor Wolf",
+                "login": "email@example.com",
+                "avatar": {
+                    "id": 1, // IDшник файла
+                    "url": "https://hostname/link/to/file.jpg?sign=hash"
+                }
+            }
+        ],
         cardDetail: null,
         showDetail: false
     },

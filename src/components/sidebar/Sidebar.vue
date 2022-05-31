@@ -50,18 +50,18 @@
                 <div class="sidebar-list">
                     <div class="sidebar-list-title">Специалисты</div>
                     <div class="sidebar-list-ul">
-                        <a href="#" class="sidebar-list-li">
+                        <a :href="'/api/user/' + user.id + '/issues'" class="sidebar-list-li" v-for="user in users">
                             <div class="sidebar-list-icon"></div>
-                            <div class="sidebar-list-name">Беляев Евгений</div>
+                            <div class="sidebar-list-name">{{user.name}}</div>
                         </a>
                     </div>
                 </div>
                 <div class="sidebar-list">
                     <div class="sidebar-list-title">Проекты</div>
-                    <div class="sidebar-list-ul">
-                        <a href="#" class="sidebar-list-li">
+                    <div class="sidebar-list-ul" v-for="project in projects">
+                        <a :href="'/api/project/' + project.id + '/issues'" class="sidebar-list-li">
                             <div class="sidebar-list-icon sidebar-list-icon--project"></div>
-                            <div class="sidebar-list-name">Асана для Федора</div>
+                            <div class="sidebar-list-name">{{project.name}}</div>
                         </a>
                     </div>
                 </div>
@@ -84,6 +84,12 @@
         computed: {
             showSide() {
                 return this.$store.state.showSide
+            },
+            projects() {
+                return this.$store.state.projects;
+            },
+            users() {
+                return this.$store.state.users;
             }
         },
         methods: {
