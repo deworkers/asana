@@ -49,7 +49,6 @@
         },
         methods: {
             toggleList() {
-                console.log('toggleList');
                 this.show = !this.show;
             },
             select(user) {

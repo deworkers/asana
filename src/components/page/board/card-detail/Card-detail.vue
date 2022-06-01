@@ -8,7 +8,7 @@
             <div class="card-detail-body">
                 <div class="card-detail-title">
                     <div class="shadow">{{title}}</div>
-                    <textarea name="" v-model="title"></textarea>
+                    <textarea v-model="$store.state.cardDetail.title"></textarea>
                 </div>
 
                 <div class="card-detail-info">
@@ -39,7 +39,7 @@
                 </div>
                 <div class="card-editor">
                     <vue-editor 
-                        v-model="content" 
+                        v-model="$store.state.cardDetail.description" 
                         :editor-toolbar="customToolbar">
                     </vue-editor>
                 </div>
