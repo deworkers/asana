@@ -1,7 +1,10 @@
 <template>
     <transition name="slideRight">
         <div class="card-detail" v-if="showDetail" v-click-outside="hide">
-            <Top :hide="hide"></Top>
+            <Top 
+                :hide="hide"
+                :updateParam="updateParam"
+                :ready="cardDetail.ready"></Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
                     <div class="shadow">{{title}}</div>
@@ -10,20 +13,25 @@
 
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Исполнитель</div>
-                    <div class="card-detail-info__text">{{cardDetail.performer.name}}</div>
+                    <div class="card-detail-info__text">
+                        <Assignee 
+                            :assignee="cardDetail.assignee"
+                            :updateParam="updateParam">
+                        </Assignee>
+                    </div>
                 </div>
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Срок выполнения</div>
                     <div class="card-detail-info__text">
                         <Calendar 
-                            :updateDate="updateDate"
-                            :dueDate="cardDetail.dueDate">
+                            :dueDate="cardDetail.dueDate"
+                            :updateParam="updateParam">
                         </Calendar>
                     </div>
                 </div>
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Проекты</div>
-                    <div class="card-detail-info__text">//список проектов//</div>
+                    <div class="card-detail-info__text" v-if="cardDetail.project">{{cardDetail.project.name}}</div>
                 </div>
 
                 <div class="card-detail-info">
@@ -50,6 +58,7 @@
     import MessageList from './Message-list/Message-list.vue';
     import Calendar from './calendar/Calendar.vue';
     import Top from './top/Top.vue';
+    import Assignee from './assignee/Assignee.vue';
 
     export default {
         name: 'Card-detail',
@@ -68,7 +77,8 @@
             VueEditor,
             MessageList,
             Calendar,
-            Top
+            Top,
+            Assignee
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -87,8 +97,11 @@
                     this.$store.commit('hideDetail');
                 }
             },
-            updateDate(newDate) {
-                this.cardDetail.dueDate = newDate;
+            updateParam(newValue, param) {
+                this.cardDetail[param] = newValue;
+            },
+            updateCard() {
+
             }
         },
         watch: {

@@ -10,7 +10,7 @@
         :prevMonthCaption="prevMonthCaption"
         :setTimeCaption="setTimeCaption"
         :pickTime="true"
-        :format="'YYYY-MM-DD HH:mm'"
+        :format="'DD.MM.YYYY HH:mm'"
         :displayFormat="'DD.MM.YYYY HH:mm'"
         >
         <template v-slot:default="{toggle, inputValue}">
@@ -41,7 +41,7 @@
         },
         props: {
             dueDate: String,
-            updateDate: Function
+            updateParam: Function
         },
         components: {
             DatePick
@@ -66,8 +66,7 @@
         watch: {
             date(newValue, oldValue) {
                 this.$nextTick(function () {
-                    console.log(newValue);
-                    this.updateDate(newValue);
+                    this.updateParam(newValue, 'dueDate');
                 })
             },
             dueDate(newValue, oldValue) {

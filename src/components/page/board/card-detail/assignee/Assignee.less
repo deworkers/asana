@@ -1,0 +1,72 @@
+.assignee {
+    position: relative;
+}
+
+.assignee-select {
+    cursor: pointer;
+    padding: 5px 5px;
+    position: relative;
+    left: -8px;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background: #f3f1f1;
+        border-radius: 5px;
+    }
+}
+
+.assignee-select--add {
+	display: flex;
+    align-items: center;
+    position: relative;
+    left: -6px;
+    font-size: 12px;
+    cursor: pointer;
+    padding: 3px;
+
+    &:hover {
+        background: #f3f1f1;
+        border-radius: 5px;
+    }
+}
+
+.assignee-select--add--icon {
+	height: 24px;
+    width: 24px;
+    border-radius: 50%;
+    background: none;
+    border: 1px dashed #6f7071;
+    margin-right: 10px;
+
+    .icon {
+        height: 24px;
+        width: 24px;
+        position: relative;
+        top: -2px;
+        left: -2px;
+    }
+}
+
+.assignee-list {
+	position: absolute;
+    left: -11px;
+    background: #fff;
+    border: 1px solid #edeae9;
+    border-radius: 3px;
+    z-index: 10;
+    width: 200px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+.assignee-one {
+	padding: 5px 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    &:hover {
+        background: #ddd;
+    }
+}

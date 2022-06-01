@@ -1,5 +1,6 @@
 @import url('/node_modules/vue-date-pick/dist/vueDatePick.css');
-@import url('./Top/Top.less');
+@import url('./top/Top.less');
+@import url('./assignee/Assignee.less');
 
 .card-detail {
     position: absolute;
@@ -124,7 +125,13 @@ div.ql-container.ql-snow {
 }
 
 .card-detail-info__text {
-	
+	.date-button {
+        margin-left: -10px;
+    }
+
+    .cart-dueDate--add {
+        opacity: 1;
+    }
 }
 
 .date-clear {

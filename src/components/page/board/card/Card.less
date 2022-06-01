@@ -21,11 +21,46 @@
     position: relative;
     cursor: pointer;
 
+    .assignee {
+        margin-right: 10px;
+    }
+
+    .assignee-select,
+    .assignee-select--add {
+        left: 0;
+        padding: 0;
+
+        &:hover {
+            background: none;
+        }
+
+        span {
+            display: none;
+        }
+    }
+
+    .avatar, 
+    .assignee-select--add--icon {
+        margin-right: 0;
+    }
+
+    .assignee-select--add--icon:hover {
+        background: #f3f1f1;
+    }
+
+    .assignee-one .avatar {
+        margin-right: 10px;
+    }
+
     &:hover {
         box-shadow: 0 0 0 1px #afabac, 0 2px 10px 0 rgba(109, 110, 111, 0.08);
 
         .card-remove {
             opacity: 0.5;
+        }
+
+        .cart-dueDate--add {
+            opacity: 1;
         }
     }
 }
@@ -98,11 +133,11 @@
     left: -2px;
     padding: 4px;
     border-radius: 50%;
-    border: 1px solid transparent;
-    
+    background: none;
+    border: 1px dashed #6f7071;
+
     &:hover {
+        background: #f3f1f1;
         border-radius: 50%;
-        background: none;
-        border: 1px dashed #6f7071;
     }
 }

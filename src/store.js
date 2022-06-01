@@ -5,69 +5,54 @@ Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
         showSide: true,
-        board: [
+        cards: [
             {
-                id: 0,
-                listName:'pause',
-                title: 'На паузе',
-                list: [
-                    {
-                        id: '1',
-                        title: 'Простая задача',
-                        description: '',
-                        compleet: true,
-                        dueDate: null,
-                        performer: {
-                            id: '',
-                            name: 'Беляев Евгений',
-                            avatar: {
-                                letters: 'eb',
-                                background: '#8d84e8'
-                            }
-                        },
-                        messages: [{
-                            id: 0,
-                            period: '2 дня назад',
-                            text: '<a class="MiniStory-actor BaseLink" href="#">evgenii belyaev</a> <span class="MiniStoryActionSentence-content">переместил(а) эту задачу из столбца «В работе» в столбец «Обсуждение/Пауза» проекта «⚠️ Евгений Беляев».</span>',
-                            autor: {
-                                id: '',
-                                name: 'Беляев Евгений',
-                                avatar: {
-                                    letters: 'eb',
-                                    background: '#8d84e8'
-                                }
-                            }
-                        }]
-                    },
-                    {
-                        id: '2',
-                        title: 'Пример задачи с очень длинным названием. Настолько длинным что пока я это писал я устал и лег спать. Но она все равно влазит в карточку. Оказывается карточка безразмерная =)',
-                        description: '<p>Тут будет описание в виде html кода</p>',
-                        compleet: false,
-                        dueDate: '2022-05-31 14:30',
-                        performer: {
-                            id: '',
-                            name: 'Беляев Евгений',
-                            avatar: {
-                                letters: 'eb',
-                                background: '#8d84e8'
-                            }
-                        },
-                        messages: null
+                "id": 100,
+                "title": "Заголовок задачи",
+                "project": {
+                  "id": 1,
+                  "name": "Госсталь"
+                },
+                "created_by": {
+                    "id": 1,
+                    "name": "Fjodor Wolf",
+                    "login": "email@example.com",
+                    "avatar": {
+                        "id": 1,
+                        "url": "https://hostname/link/to/file.jpg?sign=hash"
                     }
-                ]
+                },
+                "assignee": {
+                    "id": 1,
+                    "name": "Fjodor Wolf",
+                    "login": "email@example.com",
+                    "avatar": {
+                        "id": 1,
+                        "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                    }
+                },
+                "deadline": "2022-05-31T10:20:30+05:00",
+                "column": "wait", // wait - на паузе, in_progress - в работе, done - выполнено
+                "ready": false, // флажок готовности задачи
+                "description": "Описание задачи"
+            }
+               
+        ],
+        column: [
+            {
+                listName:'wait',
+                title: 'На паузе',
+                cards: []
             },
             {
-                id: 1,
-                listName:'inprogerss',
+                listName:'in_progress',
                 title: 'В работе',
-                list: []
+                cards: []
             },
             {
-                id: 2,
                 listName:'done',
                 title: 'Выполнено',
-                list: []
+                cards: []
             }
         ],
         projects: [
@@ -92,9 +77,21 @@ var store = new Vuex.Store({
                 "login": "email@example.com",
                 "avatar": {
                     "id": 1, // IDшник файла
-                    "url": "https://hostname/link/to/file.jpg?sign=hash"
+                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
                 }
-            }
+            },
+            {
+                "id": 2,
+                "name": "Evgeniy Belyaev",
+                "login": "email@example.com",
+                "avatar": null
+            },
+             {
+                "id": 3,
+                "name": "Mary Sue",
+                "login": "email@example.com",
+                "avatar": null
+            },
         ],
         cardDetail: null,
         showDetail: false
@@ -110,22 +107,39 @@ var store = new Vuex.Store({
         hideDetail: function(state, payload) {
             state.showDetail = false;
         },
-        addCard: function(state, payload) {
-            state.board.find((col, indexCol)=> {
-                if (col.listName === payload.listName) {
-                    state.board[indexCol].list.push(payload.card);
+        updateColumn: function(state, payload) {
+            state.column.forEach((col, index, columnList)=> {
+                col.cards = [];
+                state.cards.forEach((card, indexCard, cards)=> {
+                    if (card.column == col.listName) {
+                        col.cards.push(card);
+                    }
+                });
+            });
+        },
+        moveCard: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.cardId) {
+                    state.cards[index]['column'] = payload.moveTo;
                     return true;
                 }
             });
         },
+        addCard: function(state, payload) {
+            state.cards.push(payload.card);
+            store.commit('updateColumn');
+        },
         removeCard: function(state, payload) {
-            state.board.find((col, indexCol)=> {
-                if (col.listName === payload.listName) {
-                    col.list.forEach((card, indexCard, list)=> {
-                        if (card.id == payload.id) {
-                            list.splice(indexCard, 1);
-                        }
-                    });
+            state.cards.forEach((card, indexCard, list)=> {
+                if (card.id == payload.id) {
+                    list.splice(indexCard, 1);
+                }
+            });
+        },
+        updateCard: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.cardId) {
+                    
                 }
             });
         }

@@ -1,7 +1,10 @@
 <template>
     <div class="card-detail-top">
-        <div class="card-detail-top__compleet">
-            <button>Выполнено</button>
+        <div :class="['card-detail-top__compleet', ready ? 'active' : '']">
+            <button @click="compleet">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M9.2,20c-0.5,0.5-1.3,0.5-1.9,0l-5.1-5.1c-0.4-0.5-0.4-1.3,0-1.9c0.4-0.5,1.3-0.5,1.9,0l4.1,4.1L19.7,5.7 c0.5-0.5,1.3-0.5,1.9,0s0.5,1.3,0,1.9L9.2,20z"></path></svg>
+                Выполнено
+            </button>
         </div>
         <div class="card-detail-top-right">
             <div class="card-detail-top__link">
@@ -19,11 +22,13 @@
         name: 'Top',
         data: function() {
             return {
-                
+                //ready: false
             }
         },
         props: {
-            hide: Function
+            hide: Function,
+            ready: Boolean,
+            updateParam: Function
         },
         components: {
 
@@ -31,7 +36,9 @@
         computed: {
         },
         methods: {
-            
+            compleet() {
+                this.updateParam(!this.ready, 'ready');
+            }
         },
         mounted() {
             
