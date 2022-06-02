@@ -4,6 +4,7 @@
             <Avatar :user="assignee"></Avatar>
             <span>{{assignee.name}}</span>
         </div>
+        <div class="assignee-clear" @click="clear" v-if="assignee !== null"></div>
         <div class="assignee-select--add" v-if="assignee == null" @click="toggleList">
             <div class="assignee-select--add--icon">
                 <svg class="icon" focusable="false" viewBox="0 0 24 24">
@@ -54,6 +55,9 @@
             select(user) {
                 this.toggleList();
                 this.updateParam(user, 'assignee');
+            },
+            clear() {
+                this.updateParam(null, 'assignee');
             }
         },
         mounted() {

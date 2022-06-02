@@ -17,7 +17,7 @@
             </Assignee>
             <Calendar 
                 :updateParam="updateParam"
-                :dueDate="card.dueDate">
+                :dueDate="card.deadline">
             </Calendar>
         </div>
     </div>

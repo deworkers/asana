@@ -65,10 +65,7 @@
                             id: randomId,
                             title: this.title,
                             column: this.listName,
-                            project: {
-                                id: 1,
-                                name: "Госсталь"
-                            },
+                            project: null,
                             created_by: {
                                 id: 1,
                                 name: "Fjodor Wolf",

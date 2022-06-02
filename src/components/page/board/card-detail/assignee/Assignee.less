@@ -1,5 +1,7 @@
 .assignee {
     position: relative;
+    display: flex;
+    align-items: center;
 }
 
 .assignee-select {
@@ -51,6 +53,7 @@
 .assignee-list {
 	position: absolute;
     left: -11px;
+    top: 30px;
     background: #fff;
     border: 1px solid #edeae9;
     border-radius: 3px;
@@ -68,5 +71,42 @@
 
     &:hover {
         background: #ddd;
+    }
+}
+
+.assignee-clear {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    position: relative;
+    border-radius: 3px;
+    transition: background 0.3s;
+    border: none;
+    background: none;
+
+    &:hover {
+        background: #f0f0f0;
+    }
+
+    &::before {
+        content: "";
+        width: 15px;
+        height: 1px;
+        background: #6f7071;
+        position: absolute;
+        top: 12px;
+        left: 5px;
+        transform: rotate(45deg);
+    }
+
+    &::after {
+        content: "";
+        width: 1px;
+        height: 15px;
+        background: #6f7071;
+        position: absolute;
+        top: 5px;
+        left: 12px;
+        transform: rotate(45deg);
     }
 }

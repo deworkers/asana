@@ -2,7 +2,6 @@
     <date-pick
         v-model="date"
         :inputAttributes="{readonly: true}"
-        :isDateDisabled="isPastDate"
         :selectableYearRange="{from: 2022, to: 2024}"
         :weekdays="weekdays"
         :months="months"
@@ -10,7 +9,7 @@
         :prevMonthCaption="prevMonthCaption"
         :setTimeCaption="setTimeCaption"
         :pickTime="true"
-        :format="'DD.MM.YYYY HH:mm'"
+        :format="'YYYY-MM-DD HH:mm'"
         :displayFormat="'DD.MM.YYYY HH:mm'"
         >
         <template v-slot:default="{toggle, inputValue}">
@@ -18,9 +17,9 @@
                 <i class="fa-regular fa-calendar"></i>
             </div>
             <button class="date-button" @click="toggle" v-if="date != null">
-                 {{ datePharse || 'Выбрать дату' }}
+                 {{ inputValue || 'Выбрать дату' }}
             </button>
-            <button @click="clear" class="date-clear" v-if="date != null"><i class="fa-regular fa-circle-xmark"></i></button>
+            <button @click="clear" class="assignee-clear" v-if="date != null"></button>
         </template>
     </date-pick>
 </template>
@@ -51,7 +50,8 @@
                 return this.$store.state.cardDetail;
             },
             datePharse() {
-                return this.date;
+                let date = new Date(this.date);
+                return date;
             }
         },
         methods: {
@@ -66,7 +66,7 @@
         watch: {
             date(newValue, oldValue) {
                 this.$nextTick(function () {
-                    this.updateParam(newValue, 'dueDate');
+                    this.updateParam(newValue, 'deadline');
                 })
             },
             dueDate(newValue, oldValue) {

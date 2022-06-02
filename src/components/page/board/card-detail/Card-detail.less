@@ -1,6 +1,7 @@
 @import url('/node_modules/vue-date-pick/dist/vueDatePick.css');
 @import url('./top/Top.less');
 @import url('./assignee/Assignee.less');
+@import url('./projects/Projects.less');
 
 .card-detail {
     position: absolute;
@@ -43,13 +44,13 @@
 div.quillWrapper {
     border: 1px solid #ddd;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 div.quillWrapper .ql-snow.ql-toolbar {
     padding-top: 4px;
     background: #f9f8f8;
     border: none;
+    border-radius: 10px 10px 0 0;
 }
 
 div.ql-snow .ql-toolbar button svg, div.quillWrapper .ql-snow.ql-toolbar button svg {
@@ -153,4 +154,9 @@ div.ql-container.ql-snow {
     &:hover {
         background: #f9f8f8;
     }
+}
+
+.vdpComponent {
+    display: flex;
+    align-items: center;
 }

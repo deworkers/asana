@@ -24,14 +24,19 @@
                     <div class="card-detail-info__title">Срок выполнения</div>
                     <div class="card-detail-info__text">
                         <Calendar 
-                            :dueDate="cardDetail.dueDate"
+                            :dueDate="cardDetail.deadline"
                             :updateParam="updateParam">
                         </Calendar>
                     </div>
                 </div>
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Проекты</div>
-                    <div class="card-detail-info__text" v-if="cardDetail.project">{{cardDetail.project.name}}</div>
+                    <div class="card-detail-info__text">
+                        <Projects 
+                            :project="cardDetail.project"
+                            :updateParam="updateParam">
+                        </Projects>
+                    </div>
                 </div>
 
                 <div class="card-detail-info">
@@ -59,6 +64,7 @@
     import Calendar from './calendar/Calendar.vue';
     import Top from './top/Top.vue';
     import Assignee from './assignee/Assignee.vue';
+    import Projects from './projects/Projects.vue';
 
     export default {
         name: 'Card-detail',
@@ -78,7 +84,8 @@
             MessageList,
             Calendar,
             Top,
-            Assignee
+            Assignee,
+            Projects
         },
         directives: {
             clickOutside: ClickOutside.directive
