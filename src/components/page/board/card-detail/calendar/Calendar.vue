@@ -30,7 +30,8 @@
         name: 'Message-list',
         data: function() {
             return {
-                date: this.dueDate,
+                date: this.deadline,
+                updated: false,
                 weekdays: ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
                 months: ['Январь', 'Февраль', 'Март', 'Апрель', 'Май', 'Июнь', 'Июль', 'Август', 'Сентябрь', 'Октябрь', 'Ноябрь', 'Декабрь'],
                 nextMonthCaption: 'Следующий месяц',
@@ -39,7 +40,7 @@
             }
         },
         props: {
-            dueDate: String,
+            deadline: String,
             updateParam: Function
         },
         components: {
@@ -49,10 +50,7 @@
             cardDetail() {
                 return this.$store.state.cardDetail;
             },
-            datePharse() {
-                let date = new Date(this.date);
-                return date;
-            }
+            
         },
         methods: {
             isPastDate(date) {
@@ -61,16 +59,26 @@
             },
             clear() {
                 this.date = null;
+            },
+            getTimeZone(date) {
+                var offset = date.getTimezoneOffset(), o = Math.abs(offset);
+                return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
+            },
+            datePharse() {
+                let date = new Date(this.date);
+                console.log(this.getTimeZone(date));
+                return date;
             }
         },
         watch: {
             date(newValue, oldValue) {
+                this.datePharse();
                 this.$nextTick(function () {
-                    this.updateParam(newValue, 'deadline');
+                    this.updateParam(this.date, 'deadline');
                 })
             },
-            dueDate(newValue, oldValue) {
-                this.date = this.dueDate;
+            deadline(newValue, oldValue) {
+                this.date = this.deadline;
             }
         }
     }

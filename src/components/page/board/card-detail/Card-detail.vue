@@ -24,7 +24,7 @@
                     <div class="card-detail-info__title">Срок выполнения</div>
                     <div class="card-detail-info__text">
                         <Calendar 
-                            :dueDate="cardDetail.deadline"
+                            :deadline="cardDetail.deadline"
                             :updateParam="updateParam">
                         </Calendar>
                     </div>
@@ -49,7 +49,7 @@
                     </vue-editor>
                 </div>
 
-                <MessageList :messages="cardDetail.messages"></MessageList>
+                <MessageList :messages="cardDetail.journal.items"></MessageList>
                 
             </div>
             <div class="card-detail-footer">тут будет отправка сообщений</div>             

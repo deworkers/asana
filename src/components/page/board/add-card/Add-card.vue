@@ -15,7 +15,7 @@
             <div class="card-bottom">
                 <Calendar 
                     :updateDate="updateDate"
-                    :dueDate="dueDate">
+                    :deadline="deadline">
                 </Calendar>
             </div>
         </div>
@@ -36,7 +36,7 @@
             return {
                 showCard: false,
                 title: '',
-                dueDate: null
+                deadline: null
             }
         },
         props: {
