@@ -17,7 +17,7 @@
                 <i class="fa-regular fa-calendar"></i>
             </div>
             <button class="date-button" @click="toggle" v-if="date != null">
-                 {{ inputValue || 'Выбрать дату' }}
+                 {{ localeDate || 'Выбрать дату' }}
             </button>
             <button @click="clear" class="assignee-clear" v-if="date != null"></button>
         </template>
@@ -26,6 +26,8 @@
 
 <script>
     import DatePick from 'vue-date-pick';
+    import moment from 'moment';
+
     export default {
         name: 'Message-list',
         data: function() {
@@ -50,7 +52,10 @@
             cardDetail() {
                 return this.$store.state.cardDetail;
             },
-            
+            localeDate() {
+                let date = moment(this.deadline);
+                return  date.locale("ru").fromNow();
+            }
         },
         methods: {
             isPastDate(date) {
@@ -72,7 +77,6 @@
         },
         watch: {
             date(newValue, oldValue) {
-                this.datePharse();
                 this.$nextTick(function () {
                     this.updateParam(this.date, 'deadline');
                 })

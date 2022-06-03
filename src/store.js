@@ -31,12 +31,13 @@ var store = new Vuex.Store({
                         "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
                     }
                 },
-                "deadline": "2022-06-31T10:20:30+05:00",
+                "deadline": "2022-05-30T10:20:30+05:00",
                 "column": "wait", // wait - на паузе, in_progress - в работе, done - выполнено
                 "ready": false, // флажок готовности задачи
                 "description": "Описание задачи",
                 "journal": {
-                    "items": [{
+                    "items": [
+                        {
                             "id": 10,
                             "type": "create_issue",
                             "logged_by": {
@@ -69,6 +70,41 @@ var store = new Vuex.Store({
                             // здесь нужно писать - <Пользователь> отметил задачу “выполнена” <дата и время>
                         },
                         {
+                            "id": 14,
+                            "type": "comment",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": {
+                                "text": "Текст комментария",
+                                "attachments": [ // список прикрепленных к комментарию файлов
+                                    {
+                                        "id": 1,
+                                        "name": "file",
+                                        "extension": "jpg",
+                                        "size": 100500,
+                                        "url": "https://hostname/link/to/file.jpg?sign=hash",
+                                        "uploaded_by": {
+                                            "id": 1,
+                                            "name": "Fjodor Wolf",
+                                            "login": "email@example.com",
+                                            "avatar": {
+                                                "id": 1,
+                                                "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
                             "id": 12,
                             "type": "unmark_ready",
                             "logged_by": {
@@ -96,7 +132,7 @@ var store = new Vuex.Store({
                                     "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
                                 }
                             },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "timestamp": "2022-06-03T10:20:30+05:00",
                             "data": {
                                 "from": "in_progress",
                                 "to": "wait"
@@ -139,7 +175,6 @@ var store = new Vuex.Store({
                             }
                         }
                     ]
-                     
                 }
             }
                
@@ -199,6 +234,12 @@ var store = new Vuex.Store({
                 "avatar": null
             },
         ],
+        maker: {
+            "id": 2,
+            "name": "Evgeniy Belyaev",
+            "login": "email@example.com",
+            "avatar": null
+        },
         cardDetail: null,
         showDetail: false
     },
@@ -242,10 +283,18 @@ var store = new Vuex.Store({
                 }
             });
         },
+        addComment: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.id) {
+                    card.journal.items.push(payload.comment);
+                    state.cardDetail = card;
+                }
+            });
+        },
         updateCard: function(state, payload) {
             state.cards.find((card, index) => {
-                if (card.id === payload.cardId) {
-                    
+                if (card.id === payload.id) {
+                    state.cardDetail = card;
                 }
             });
         }

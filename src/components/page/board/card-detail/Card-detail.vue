@@ -42,6 +42,7 @@
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Описание</div>
                 </div>
+
                 <div class="card-editor">
                     <vue-editor 
                         v-model="$store.state.cardDetail.description" 
@@ -49,10 +50,11 @@
                     </vue-editor>
                 </div>
 
-                <MessageList :messages="cardDetail.journal.items"></MessageList>
-                
+                <MessageList v-if="cardDetail.journal" :messages="cardDetail.journal.items"></MessageList>
             </div>
-            <div class="card-detail-footer">тут будет отправка сообщений</div>             
+            <div class="card-detail-footer">
+                <MessageSend :messages="cardDetail.journal.items"></MessageSend>
+            </div>             
         </div>
     </transition>
 </template>
@@ -65,6 +67,7 @@
     import Top from './top/Top.vue';
     import Assignee from './assignee/Assignee.vue';
     import Projects from './projects/Projects.vue';
+    import MessageSend from './messageSend/MessageSend.vue';
 
     export default {
         name: 'Card-detail',
@@ -85,7 +88,8 @@
             Calendar,
             Top,
             Assignee,
-            Projects
+            Projects,
+            MessageSend
         },
         directives: {
             clickOutside: ClickOutside.directive

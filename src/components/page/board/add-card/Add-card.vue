@@ -79,7 +79,10 @@
                             deadline: this.dueDate,
                             column: this.listName,
                             ready: false, 
-                            description: ""
+                            description: "",
+                            journal: {
+                                items: []
+                            }
                         },
                     });
                 }
