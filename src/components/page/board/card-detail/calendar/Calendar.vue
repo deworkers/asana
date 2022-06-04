@@ -65,19 +65,15 @@
             clear() {
                 this.date = null;
             },
-            getTimeZone(date) {
-                var offset = date.getTimezoneOffset(), o = Math.abs(offset);
-                return (offset < 0 ? "+" : "-") + ("00" + Math.floor(o / 60)).slice(-2) + ":" + ("00" + (o % 60)).slice(-2);
-            },
             datePharse() {
-                let date = new Date(this.date);
-                console.log(this.getTimeZone(date));
-                return date;
+                let date = moment(this.date);
+                return date.toISOString(true);
             }
         },
         watch: {
             date(newValue, oldValue) {
                 this.$nextTick(function () {
+                    this.datePharse(); // отправка в бекенд даты с таймзоной
                     this.updateParam(this.date, 'deadline');
                 })
             },

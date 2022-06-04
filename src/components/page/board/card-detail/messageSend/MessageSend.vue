@@ -10,6 +10,7 @@
 
 <script>
     import { VueEditor } from "vue2-editor";
+    import moment from 'moment';
 
     export default {
         name: 'MessageSend',
@@ -43,7 +44,7 @@
                     id: Math.floor(Math.random() * 100000),
                     type: 'comment',
                     logged_by: this.maker,
-                    timestamp: "2022-06-04T10:20:30+05:00",
+                    timestamp: moment().toISOString(true),
                     data: {
                         text: this.text
                     }
