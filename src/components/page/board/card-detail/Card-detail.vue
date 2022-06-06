@@ -1,45 +1,60 @@
 <template>
     <transition name="slideRight">
         <div class="card-detail" v-if="showDetail" v-click-outside="hide">
-            <Top :hide="hide"></Top>
+            <Top 
+                :hide="hide"
+                :updateParam="updateParam"
+                :ready="cardDetail.ready"></Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
                     <div class="shadow">{{title}}</div>
-                    <textarea name="" v-model="title"></textarea>
+                    <textarea v-model="$store.state.cardDetail.title"></textarea>
                 </div>
 
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Исполнитель</div>
-                    <div class="card-detail-info__text">{{cardDetail.performer.name}}</div>
+                    <div class="card-detail-info__text">
+                        <Assignee 
+                            :assignee="cardDetail.assignee"
+                            :updateParam="updateParam">
+                        </Assignee>
+                    </div>
                 </div>
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Срок выполнения</div>
                     <div class="card-detail-info__text">
                         <Calendar 
-                            :updateDate="updateDate"
-                            :dueDate="cardDetail.dueDate">
+                            :deadline="cardDetail.deadline"
+                            :updateParam="updateParam">
                         </Calendar>
                     </div>
                 </div>
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Проекты</div>
-                    <div class="card-detail-info__text">//список проектов//</div>
+                    <div class="card-detail-info__text">
+                        <Projects 
+                            :project="cardDetail.project"
+                            :updateParam="updateParam">
+                        </Projects>
+                    </div>
                 </div>
 
                 <div class="card-detail-info">
                     <div class="card-detail-info__title">Описание</div>
                 </div>
+
                 <div class="card-editor">
                     <vue-editor 
-                        v-model="content" 
+                        v-model="$store.state.cardDetail.description" 
                         :editor-toolbar="customToolbar">
                     </vue-editor>
                 </div>
 
-                <MessageList :messages="cardDetail.messages"></MessageList>
-                
+                <MessageList v-if="cardDetail.journal" :messages="cardDetail.journal.items"></MessageList>
             </div>
-            <div class="card-detail-footer">тут будет отправка сообщений</div>             
+            <div class="card-detail-footer">
+                <MessageSend :messages="cardDetail.journal.items"></MessageSend>
+            </div>             
         </div>
     </transition>
 </template>
@@ -50,6 +65,9 @@
     import MessageList from './message-list/Message-list.vue';
     import Calendar from './calendar/Calendar.vue';
     import Top from './top/Top.vue';
+    import Assignee from './assignee/Assignee.vue';
+    import Projects from './projects/Projects.vue';
+    import MessageSend from './messageSend/MessageSend.vue';
 
     export default {
         name: 'Card-detail',
@@ -68,7 +86,10 @@
             VueEditor,
             MessageList,
             Calendar,
-            Top
+            Top,
+            Assignee,
+            Projects,
+            MessageSend
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -87,8 +108,11 @@
                     this.$store.commit('hideDetail');
                 }
             },
-            updateDate(newDate) {
-                this.cardDetail.dueDate = newDate;
+            updateParam(newValue, param) {
+                this.cardDetail[param] = newValue;
+            },
+            updateCard() {
+
             }
         },
         watch: {

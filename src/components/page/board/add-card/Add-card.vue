@@ -15,7 +15,7 @@
             <div class="card-bottom">
                 <Calendar 
                     :updateDate="updateDate"
-                    :dueDate="dueDate">
+                    :deadline="deadline">
                 </Calendar>
             </div>
         </div>
@@ -36,7 +36,7 @@
             return {
                 showCard: false,
                 title: '',
-                dueDate: null
+                deadline: null
             }
         },
         props: {
@@ -61,19 +61,27 @@
                 if (this.title.length > 0) {
                     let randomId = Math.floor(Math.random() * 100000);
                     this.$store.commit('addCard', {
-                        listName: this.listName,
                         card: {
                             id: randomId,
                             title: this.title,
-                            compleet: false,
-                            dueDate: this.dueDate,
-                            performer: {
-                                id: '',
-                                name: 'Беляев Евгений',
+                            column: this.listName,
+                            project: null,
+                            created_by: {
+                                id: 1,
+                                name: "Fjodor Wolf",
+                                login: "email@example.com",
                                 avatar: {
-                                    letters: 'eb',
-                                    background: '#8d84e8'
+                                    id: 1,
+                                    url: "https://hostname/link/to/file.jpg?sign=hash"
                                 }
+                            },
+                            assignee: null,
+                            deadline: this.dueDate,
+                            column: this.listName,
+                            ready: false, 
+                            description: "",
+                            journal: {
+                                items: []
                             }
                         },
                     });

@@ -5,69 +5,195 @@ Vue.use(Vuex)
 var store = new Vuex.Store({
     state: {
         showSide: true,
-        board: [
+        cards: [
             {
-                id: 0,
-                listName:'pause',
-                title: 'На паузе',
-                list: [
-                    {
-                        id: '1',
-                        title: 'Простая задача',
-                        description: '',
-                        compleet: true,
-                        dueDate: null,
-                        performer: {
-                            id: '',
-                            name: 'Беляев Евгений',
-                            avatar: {
-                                letters: 'eb',
-                                background: '#8d84e8'
-                            }
-                        },
-                        messages: [{
-                            id: 0,
-                            period: '2 дня назад',
-                            text: '<a class="MiniStory-actor BaseLink" href="#">evgenii belyaev</a> <span class="MiniStoryActionSentence-content">переместил(а) эту задачу из столбца «В работе» в столбец «Обсуждение/Пауза» проекта «⚠️ Евгений Беляев».</span>',
-                            autor: {
-                                id: '',
-                                name: 'Беляев Евгений',
-                                avatar: {
-                                    letters: 'eb',
-                                    background: '#8d84e8'
-                                }
-                            }
-                        }]
-                    },
-                    {
-                        id: '2',
-                        title: 'Пример задачи с очень длинным названием. Настолько длинным что пока я это писал я устал и лег спать. Но она все равно влазит в карточку. Оказывается карточка безразмерная =)',
-                        description: '<p>Тут будет описание в виде html кода</p>',
-                        compleet: false,
-                        dueDate: '2022-05-31 14:30',
-                        performer: {
-                            id: '',
-                            name: 'Беляев Евгений',
-                            avatar: {
-                                letters: 'eb',
-                                background: '#8d84e8'
-                            }
-                        },
-                        messages: null
+                "id": 100,
+                "title": "Заголовок задачи",
+                "project": {
+                  "id": 1,
+                  "name": "Госсталь"
+                },
+                "created_by": {
+                    "id": 1,
+                    "name": "Fjodor Wolf",
+                    "login": "email@example.com",
+                    "avatar": {
+                        "id": 1,
+                        "url": "https://hostname/link/to/file.jpg?sign=hash"
                     }
-                ]
+                },
+                "assignee": {
+                    "id": 1,
+                    "name": "Fjodor Wolf",
+                    "login": "email@example.com",
+                    "avatar": {
+                        "id": 1,
+                        "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                    }
+                },
+                "deadline": "2022-05-30T10:20:30+05:00",
+                "column": "wait", // wait - на паузе, in_progress - в работе, done - выполнено
+                "ready": false, // флажок готовности задачи
+                "description": "Описание задачи",
+                "journal": {
+                    "items": [
+                        {
+                            "id": 10,
+                            "type": "create_issue",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": null
+                            // здесь нужно писать - <Пользователь> создал задачу <дата и время>, подставляя в <Пользователь> - чувака из logged_by, дата и время - timestamp
+                        },
+                        {
+                            "id": 11,
+                            "type": "mark_ready",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": null
+                            // здесь нужно писать - <Пользователь> отметил задачу “выполнена” <дата и время>
+                        },
+                        {
+                            "id": 14,
+                            "type": "comment",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": {
+                                "text": "Текст комментария",
+                                "attachments": [ // список прикрепленных к комментарию файлов
+                                    {
+                                        "id": 1,
+                                        "name": "file",
+                                        "extension": "jpg",
+                                        "size": 100500,
+                                        "url": "https://hostname/link/to/file.jpg?sign=hash",
+                                        "uploaded_by": {
+                                            "id": 1,
+                                            "name": "Fjodor Wolf",
+                                            "login": "email@example.com",
+                                            "avatar": {
+                                                "id": 1,
+                                                "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        },
+                        {
+                            "id": 12,
+                            "type": "unmark_ready",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": null
+                            // здесь нужно писать - <Пользователь> отметил что задача не завершена <дата и время>
+                        },
+                        {
+                            "id": 13,
+                            "type": "change_column",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-06-03T10:20:30+05:00",
+                            "data": {
+                                "from": "in_progress",
+                                "to": "wait"
+                            }
+                            // здесь нужно писать - <Пользователь> переместил задачу из колонки <> в колонку <> <дата и время>, колонки надо подставлять из "data"
+                        },
+                        {
+                            "id": 14,
+                            "type": "comment",
+                            "logged_by": {
+                                "id": 1,
+                                "name": "Fjodor Wolf",
+                                "login": "email@example.com",
+                                "avatar": {
+                                    "id": 1,
+                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                }
+                            },
+                            "timestamp": "2022-05-31T10:20:30+05:00",
+                            "data": {
+                                "text": "Текст комментария",
+                                "attachments": [ // список прикрепленных к комментарию файлов
+                                    {
+                                        "id": 1,
+                                        "name": "file",
+                                        "extension": "jpg",
+                                        "size": 100500,
+                                        "url": "https://hostname/link/to/file.jpg?sign=hash",
+                                        "uploaded_by": {
+                                            "id": 1,
+                                            "name": "Fjodor Wolf",
+                                            "login": "email@example.com",
+                                            "avatar": {
+                                                "id": 1,
+                                                "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
+                                            }
+                                        }
+                                    }
+                                ]
+                            }
+                        }
+                    ]
+                }
+            }
+               
+        ],
+        column: [
+            {
+                listName:'wait',
+                title: 'На паузе',
+                cards: []
             },
             {
-                id: 1,
-                listName:'inprogerss',
+                listName:'in_progress',
                 title: 'В работе',
-                list: []
+                cards: []
             },
             {
-                id: 2,
                 listName:'done',
                 title: 'Выполнено',
-                list: []
+                cards: []
             }
         ],
         projects: [
@@ -92,10 +218,28 @@ var store = new Vuex.Store({
                 "login": "email@example.com",
                 "avatar": {
                     "id": 1, // IDшник файла
-                    "url": "https://hostname/link/to/file.jpg?sign=hash"
+                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
                 }
-            }
+            },
+            {
+                "id": 2,
+                "name": "Evgeniy Belyaev",
+                "login": "email@example.com",
+                "avatar": null
+            },
+             {
+                "id": 3,
+                "name": "Mary Sue",
+                "login": "email@example.com",
+                "avatar": null
+            },
         ],
+        maker: {
+            "id": 2,
+            "name": "Evgeniy Belyaev",
+            "login": "email@example.com",
+            "avatar": null
+        },
         cardDetail: null,
         showDetail: false
     },
@@ -110,22 +254,47 @@ var store = new Vuex.Store({
         hideDetail: function(state, payload) {
             state.showDetail = false;
         },
-        addCard: function(state, payload) {
-            state.board.find((col, indexCol)=> {
-                if (col.listName === payload.listName) {
-                    state.board[indexCol].list.push(payload.card);
+        updateColumn: function(state, payload) {
+            state.column.forEach((col, index, columnList)=> {
+                col.cards = [];
+                state.cards.forEach((card, indexCard, cards)=> {
+                    if (card.column == col.listName) {
+                        col.cards.push(card);
+                    }
+                });
+            });
+        },
+        moveCard: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.cardId) {
+                    state.cards[index]['column'] = payload.moveTo;
                     return true;
                 }
             });
         },
+        addCard: function(state, payload) {
+            state.cards.push(payload.card);
+            store.commit('updateColumn');
+        },
         removeCard: function(state, payload) {
-            state.board.find((col, indexCol)=> {
-                if (col.listName === payload.listName) {
-                    col.list.forEach((card, indexCard, list)=> {
-                        if (card.id == payload.id) {
-                            list.splice(indexCard, 1);
-                        }
-                    });
+            state.cards.forEach((card, indexCard, list)=> {
+                if (card.id == payload.id) {
+                    list.splice(indexCard, 1);
+                }
+            });
+        },
+        addComment: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.id) {
+                    card.journal.items.push(payload.comment);
+                    state.cardDetail = card;
+                }
+            });
+        },
+        updateCard: function(state, payload) {
+            state.cards.find((card, index) => {
+                if (card.id === payload.id) {
+                    state.cardDetail = card;
                 }
             });
         }

@@ -1,5 +1,8 @@
 @import url('/node_modules/vue-date-pick/dist/vueDatePick.css');
-@import url('./Top/Top.less');
+@import url('./top/Top.less');
+@import url('./assignee/Assignee.less');
+@import url('./projects/Projects.less');
+@import url('./message-list/Message-list.less');
 
 .card-detail {
     position: absolute;
@@ -21,7 +24,7 @@
     flex: 1 1 auto;
     flex-direction: column;
     min-height: 1px;
-    overflow-y: auto;
+    overflow: auto;
     padding: 0 10px;
 }
 
@@ -42,13 +45,13 @@
 div.quillWrapper {
     border: 1px solid #ddd;
     border-radius: 10px;
-    overflow: hidden;
 }
 
 div.quillWrapper .ql-snow.ql-toolbar {
     padding-top: 4px;
     background: #f9f8f8;
     border: none;
+    border-radius: 10px 10px 0 0;
 }
 
 div.ql-snow .ql-toolbar button svg, div.quillWrapper .ql-snow.ql-toolbar button svg {
@@ -124,7 +127,13 @@ div.ql-container.ql-snow {
 }
 
 .card-detail-info__text {
-	
+	.date-button {
+        margin-left: -10px;
+    }
+
+    .cart-dueDate--add {
+        opacity: 1;
+    }
 }
 
 .date-clear {
@@ -146,4 +155,100 @@ div.ql-container.ql-snow {
     &:hover {
         background: #f9f8f8;
     }
+}
+
+.vdpComponent {
+    display: flex;
+    align-items: center;
+}
+
+.card-detail-footer {
+    padding: 10px;
+ 
+    div.quillWrapper {
+        background: #fff;
+    }
+
+    div.ql-editor {
+        min-height: 30px;
+        padding: 4px 8px 35px;
+    }
+
+    div.quillWrapper .ql-snow.ql-toolbar {
+        position: absolute;
+        bottom: 1px;
+        width: calc(100% - 2px);
+        border-radius: 0 0 10px 10px;
+        z-index: 1;
+    }
+
+
+}
+
+.comment-one {
+    p {
+        margin-bottom: 5px;
+        line-height: 22px;
+    }
+
+    ul {
+        padding-left: 25px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        li {
+            list-style: disc;
+            line-height: 22px;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    }
+
+    ol {
+        padding-left: 25px;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        li {
+            list-style-type: decimal;
+            line-height: 22px;
+            overflow-wrap: break-word;
+            white-space: pre-wrap;
+        }
+    }
+
+    blockquote {
+        border-left: 4px solid #ccc;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding-left: 16px;
+    }
+
+    pre {
+        font-family: monospace;
+        background-color: #23241f;
+        color: #f8f8f2;
+        white-space: pre-wrap;
+        margin-bottom: 5px;
+        margin-top: 5px;
+        padding: 5px 10px;
+        border-radius: 3px;
+    }
+}
+
+.comment-editor {
+    position: relative;
+}
+
+.comment-send-button {
+    background: #4573d2;
+    border: none;
+    border-radius: 6px;
+    color: #fff;
+    height: 28px;
+    padding: 0 10px;
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    font-size: 14px;
+    z-index: 10;
+    cursor: pointer;
 }

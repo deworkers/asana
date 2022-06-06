@@ -6,14 +6,18 @@
         <div class="card-body">
             <div @click="select" class="card-title">{{card.title}}</div>
             <div 
-                :class="['card-compleet', card.compleet ? 'compleet': compleet]"
+                :class="['card-compleet', card.ready ? 'compleet': compleet]"
                 @click="compleet">
             </div>
         </div>
         <div class="card-bottom" @click.self="select">
+            <Assignee
+                :assignee="card.assignee"
+                :updateParam="updateParam">
+            </Assignee>
             <Calendar 
-                :updateDate="updateDate"
-                :dueDate="card.dueDate">
+                :updateParam="updateParam"
+                :deadline="card.deadline">
             </Calendar>
         </div>
     </div>
@@ -21,6 +25,7 @@
 
 <script>
     import Calendar from './../card-detail/calendar/Calendar.vue';
+    import Assignee from './../card-detail/assignee/Assignee.vue';
 
     export default {
         name: 'Card',
@@ -34,13 +39,14 @@
             listName: String
         },
         components: {
-            Calendar
+            Calendar,
+            Assignee
         },
         computed: {
         },
         methods: {
             compleet() {
-                this.card.compleet = !this.card.compleet;
+                this.card.ready = !this.card.ready;
             },
             showCalendar() {
                 this.show = !this.show;
@@ -54,8 +60,8 @@
             select() {
                 this.$store.commit('showDetail', this.card);
             },
-            updateDate(newDate) {
-                this.card.dueDate = newDate;
+            updateParam(newValue, param) {
+                this.card[param] = newValue;
             }
         },
         mounted() {

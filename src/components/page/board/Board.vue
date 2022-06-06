@@ -1,11 +1,11 @@
 <template>
     <div class="board">
         <div class="board-body">
-            <div class="board-col" v-for="col in board">
+            <div class="board-col" v-for="col in column">
                 <h3 class="board-col-title">{{col.title}}</h3>
-                <draggable class="board-group" draggable=".item" :list="col.list" group="group" @change="log">
+                <draggable class="board-group" draggable=".item" :list="col.cards" group="group" @change="log($event, col.listName)">
                     <Card
-                        v-for="(card, index) in col.list"
+                        v-for="(card, index) in col.cards"
                         :key="card.id"
                         :listName="col.listName"
                         :card="card"
@@ -42,17 +42,25 @@
             CardDetail
         },
         computed: {
-            board() {
-                return this.$store.state.board;
+            cards() {
+                return this.$store.state.cards;
+            },
+            column() {
+                return this.$store.state.column;
             }
         },
         methods: {
-            log: function(evt) {
-                window.console.log(evt);
+            log: function(evt, payload) {
+                if ('added' in evt) {
+                    this.$store.commit('moveCard', {
+                        moveTo: payload,
+                        cardId: evt.added.element.id
+                    });
+                }
             }
         },
         mounted() {
-            
+            this.$store.commit('updateColumn');
         }
     }
 </script>

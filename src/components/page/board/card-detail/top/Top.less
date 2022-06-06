@@ -11,13 +11,36 @@
 }
 
 .card-detail-top__compleet {
-    border-radius: 5px;
+    button {
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        height: 30px;
+        padding: 0 15px;
+        transition: all 0.2s;
+        font-size: 14px;
+        
+        &:hover {
+            background: #e0f4ec;
+            border-color: #5da283;
+        }
     
-	&:hover {
-        background: #e0f4ec;
+        .icon {
+            height: 12px;
+            width: 12px;
+            position: relative;
+            top: 1px;
+        }
+    }
+
+    &.active button {
+        background: #eafaf4;
         border-color: #5da283;
+        color: #5da283;
+        fill: #5da283;
     }
 }
+
+
 
 .card-detail-top-right {
 	display: flex;
@@ -36,6 +59,7 @@
     justify-content: center;
     margin-right: 5px;
     cursor: pointer;
+    transition: background 0.2s;
 
     &:hover {
         background: #edeae9;
@@ -58,6 +82,7 @@
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    transition: background 0.2s;
 
     &:hover {
         background: #edeae9;
