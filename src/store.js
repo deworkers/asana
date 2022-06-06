@@ -208,7 +208,7 @@ var store = new Vuex.Store({
             {
                 "id": 3,
                 "name": "Газпромнефть"
-            },
+            }
            
         ],
         users: [
@@ -227,12 +227,12 @@ var store = new Vuex.Store({
                 "login": "email@example.com",
                 "avatar": null
             },
-             {
+            {
                 "id": 3,
                 "name": "Mary Sue",
                 "login": "email@example.com",
                 "avatar": null
-            },
+            }
         ],
         maker: {
             "id": 2,

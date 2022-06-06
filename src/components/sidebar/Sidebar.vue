@@ -47,23 +47,21 @@
                         <div class="Sidebar-menu-name">Цели</div>
                     </a>
                 </div>
-                <div class="sidebar-list">
-                    <div class="sidebar-list-title">Специалисты</div>
-                    <div class="sidebar-list-ul">
-                        <a :href="'/api/user/' + user.id + '/issues'" class="sidebar-list-li" v-for="user in users">
-                            <div class="sidebar-list-icon"></div>
-                            <div class="sidebar-list-name">{{user.name}}</div>
-                        </a>
-                    </div>
-                </div>
-                <div class="sidebar-list">
-                    <div class="sidebar-list-title">Проекты</div>
-                    <div class="sidebar-list-ul" v-for="project in projects">
-                        <a :href="'/api/project/' + project.id + '/issues'" class="sidebar-list-li">
-                            <div class="sidebar-list-icon sidebar-list-icon--project"></div>
-                            <div class="sidebar-list-name">{{project.name}}</div>
-                        </a>
-                    </div>
+                <div class="Sidebar-scroll-panel">
+                    <SidebarMenu
+                        :list="users"
+                        :title="'Специалисты'"
+                        :api="'/api/user/'"
+                        :iconClass="''"
+                    >
+                    </SidebarMenu>
+                    <SidebarMenu
+                        :list="projects"
+                        :title="'Проекты'"
+                        :api="'/api/project/'"
+                        :iconClass="'sidebar-list-icon--project'"
+                    >
+                    </SidebarMenu>
                 </div>
             </div>
         </div>
@@ -71,6 +69,9 @@
 </template>
 
 <script>
+    import draggable from "vuedraggable";
+    import SidebarMenu from './sidebar-menu/Sidebar-menu.vue'
+
     export default {
         name: 'Sidebar',
         data: function() {
@@ -79,7 +80,7 @@
             }
         },
         components: {
-            
+            SidebarMenu
         },
         computed: {
             showSide() {
