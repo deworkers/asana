@@ -62,7 +62,7 @@
 <script>
     import ClickOutside from 'v-click-outside';
     import { VueEditor } from "vue2-editor";
-    import MessageList from './Message-list/Message-list.vue';
+    import MessageList from './message-list/Message-list.vue';
     import Calendar from './calendar/Calendar.vue';
     import Top from './top/Top.vue';
     import Assignee from './assignee/Assignee.vue';
