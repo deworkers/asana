@@ -26,6 +26,7 @@ module.exports = {
             },
             { 
                 test: /\.m?js$/,
+                exclude: /node_modules/,
                 use: {
                     loader: 'babel-loader',
                     options: {
@@ -37,6 +38,9 @@ module.exports = {
     },
     plugins: [
         new MiniCssExtractPlugin(),
+        new webpack.DefinePlugin({
+            BASE_URL: '"https://task.sbtest.ru/api"'
+        })
     ],
     resolve: {
         alias: {

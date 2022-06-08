@@ -1,6 +1,8 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
+import Vue from 'vue';
+import Vuex from 'vuex';
+import axios from 'axios';
+
+Vue.use(Vuex);
 
 var store = new Vuex.Store({
     state: {
@@ -241,7 +243,8 @@ var store = new Vuex.Store({
             "avatar": null
         },
         cardDetail: null,
-        showDetail: false
+        showDetail: false,
+        isAuth: false
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -297,10 +300,86 @@ var store = new Vuex.Store({
                     state.cardDetail = card;
                 }
             });
+        },
+        updateIsAuth:  function(state, payload) {
+            state.isAuth = payload;
+        },
+        updateCards: function(state, payload) {
+            state.cards = payload;
+        },
+        updateUsers: function(state, payload) {
+            state.users = payload;
+        },
+        updateUser: function(state, payload) {
+            state.user = payload;
+        },
+        updateProjects: function(state, payload) {
+            state.projects = payload;
+        },
+        updateState: function(state, payload) {
+            store.dispatch('getCards');
+            store.dispatch('getUsers');
+            store.dispatch('getUser');
+            store.dispatch('getProjects');
         }
     },
     actions: {
-        
+        getCards: function(context, payload) { // получение списка карточек
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/user/issues',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateCards', response.data.items);
+                    resolve();
+                });
+            });
+        },
+        getUsers: function(context, payload) { // получение списка пользователей
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/users',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateUsers', response.data.items);
+                    resolve();
+                });
+            });
+        },
+        getUser: function(context, payload) { // получение данных пользователя
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/user',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateUser', response.data);
+                    resolve();
+                });
+            });
+        },
+        getProjects: function(context, payload) { // получение списка проектов
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/projects',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateProjects', response.data.items);
+                    resolve();
+                });
+            });
+        },
     }
 });
 

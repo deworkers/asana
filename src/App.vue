@@ -1,13 +1,9 @@
 <template>
-    <div class="mainLayer">
-        <Sidebar></Sidebar>
-        <Page></Page>
-    </div>
+    <router-view></router-view>
 </template>
 
 <script>
-    import Sidebar from './components/sidebar/Sidebar.vue';
-    import Page from './components/page/Page.vue';
+    import axios from 'axios';
 
     export default {
         name: 'App',
@@ -17,16 +13,36 @@
             }
         },
         components: {
-            Sidebar,
-            Page
         },
         computed: {
+            isAuth() {
+                return this.$store.state.isAuth
+            }
         },
         methods: {
-            
+            checkAuth() {
+                axios({
+                    method: 'post',
+                    url: BASE_URL + '/auth',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                }).then((response) => {
+                    if (response.data.success) {
+                        if (response.data.success) {
+                            this.$store.commit('updateIsAuth', true);
+                            this.$store.commit('updateState');
+                            this.$router.replace({ path: '/' }).catch(()=>{});
+                        } else {
+                            this.$router.replace({ name: 'login' }).catch(()=>{});
+                        }
+                    }
+                });
+            }
         },
         mounted() {
-            
+            this.$nextTick(function() {
+                this.checkAuth();
+            });
         }
     }
 </script>

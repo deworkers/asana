@@ -1,15 +1,24 @@
 import './index.less'
 
 import Vue from 'vue'
-import Vuex from 'vuex'
-Vue.use(Vuex)
+
+import { store } from "./store";
+import { router } from "./router";
 
 import App from './App.vue'
-import { store } from "./store";
 
 var app = new Vue({
-    store: store,
+    store,
+    router,
     render: function (h) {
         return h(App);
     }
 }).$mount('#app');
+
+
+import UIkit from 'uikit';
+import Icons from 'uikit/dist/js/uikit-icons';
+
+UIkit.use(Icons);
+
+console.log(BASE_URL);
