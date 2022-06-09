@@ -53,7 +53,7 @@
                 <MessageList v-if="cardDetail.journal" :messages="cardDetail.journal.items"></MessageList>
             </div>
             <div class="card-detail-footer">
-                <MessageSend :messages="cardDetail.journal.items"></MessageSend>
+                <MessageSend></MessageSend>
             </div>             
         </div>
     </transition>
@@ -67,14 +67,14 @@
     import Top from './top/Top.vue';
     import Assignee from './assignee/Assignee.vue';
     import Projects from './projects/Projects.vue';
-    import MessageSend from './messageSend/MessageSend.vue';
+    import MessageSend from './message-send/MessageSend.vue';
 
     export default {
         name: 'Card-detail',
         data: function() {
             return {
                 content: null,
-                title: null,
+                title: '',
                 customToolbar: [
                     ["bold", "italic", "underline"],
                     [{ list: "ordered" }, { list: "bullet" }],
@@ -105,6 +105,7 @@
         methods: {
             hide(event) {
                 if (event.target.className !== 'card-title' && event.target.className !== 'card-bottom' && event.target.className !== 'board-card item') {
+                    this.updateCard();
                     this.$store.commit('hideDetail');
                 }
             },
@@ -112,7 +113,7 @@
                 this.cardDetail[param] = newValue;
             },
             updateCard() {
-
+                this.$store.commit('updateCard', this.cardDetail.id);
             }
         },
         watch: {
@@ -120,9 +121,6 @@
                 this.title = this.$store.state.cardDetail.title;
                 this.content = this.$store.state.cardDetail.description;
             }
-        },
-        mounted() {
-            
         }
     }
 </script>

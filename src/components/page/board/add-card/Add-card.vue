@@ -13,10 +13,18 @@
                 <div :class="['card-compleet']"></div>
             </div>
             <div class="card-bottom">
+                <Assignee
+                    :assignee="assignee"
+                    :updateParam="updateParam">
+                </Assignee>
                 <Calendar 
-                    :updateDate="updateDate"
+                    :updateParam="updateParam"
                     :deadline="deadline">
                 </Calendar>
+                <Projects 
+                    :project="project"
+                    :updateParam="updateParam">
+                </Projects>
             </div>
         </div>
         <div class="card-add-button" @click="addCard" v-if="!showCard">
@@ -29,6 +37,8 @@
 <script>
     import ClickOutside from 'v-click-outside';
     import Calendar from './../card-detail/calendar/Calendar.vue';
+    import Assignee from './../card-detail/assignee/Assignee.vue';
+    import Projects from './../card-detail/projects/Projects.vue';
 
     export default {
         name: 'Add-card',
@@ -36,7 +46,9 @@
             return {
                 showCard: false,
                 title: '',
-                deadline: null
+                deadline: null,
+                assignee: null,
+                project: null
             }
         },
         props: {
@@ -46,9 +58,20 @@
             clickOutside: ClickOutside.directive
         },
         components: {
-            Calendar
+            Calendar,
+            Assignee,
+            Projects
         },
         computed: {
+            user() {
+                return this.$store.state.user;
+            },
+            activeUser() {
+                return this.$store.state.activeUser;
+            },
+            activeProject() {
+                return this.$store.state.activeProject;
+            }
         },
         methods: {
             addCard() {
@@ -59,24 +82,14 @@
             },
             hide() {
                 if (this.title.length > 0) {
-                    let randomId = Math.floor(Math.random() * 100000);
                     this.$store.commit('addCard', {
                         card: {
-                            id: randomId,
                             title: this.title,
                             column: this.listName,
-                            project: null,
-                            created_by: {
-                                id: 1,
-                                name: "Fjodor Wolf",
-                                login: "email@example.com",
-                                avatar: {
-                                    id: 1,
-                                    url: "https://hostname/link/to/file.jpg?sign=hash"
-                                }
-                            },
-                            assignee: null,
-                            deadline: this.dueDate,
+                            project: this.project,
+                            created_by: this.user,
+                            assignee: this.assignee,
+                            deadline: this.deadline,
                             column: this.listName,
                             ready: false, 
                             description: "",
@@ -89,9 +102,9 @@
                 this.title = '';
                 this.showCard = false;
             },
-            updateDate(newDate) {
-                this.dueDate = newDate;
-            }
+            updateParam(newValue, param) {
+                this[param] = newValue;
+            },
         },
         mounted() {
             

@@ -29,6 +29,7 @@
 </template>
 
 <script>
+    import UIkit from 'uikit';
     import axios from 'axios';
 
     export default {
@@ -59,6 +60,7 @@
                         this.$store.commit('updateIsAuth', true);
                         this.$store.commit('updateState');
                         this.$router.push({ path: '/' });
+                        UIkit.notification("Успешная авторизация", {pos: 'bottom-right'})
                     }
                 });
             }

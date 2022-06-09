@@ -60,7 +60,16 @@
             }
         },
         mounted() {
-            this.$store.commit('updateColumn');
-        }
+            
+        },
+        watch: {
+            cards: {
+                immediate: true,
+                deep: true,
+                handler(newValue, oldValue) {
+                    this.$store.commit('updateColumn');
+                }
+            }
+        },
     }
 </script>

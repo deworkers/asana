@@ -62,10 +62,18 @@
             },
             updateParam(newValue, param) {
                 this.card[param] = newValue;
+                this.$store.commit('updateCard', this.card.id);
             }
         },
         mounted() {
             
+        },
+        watch: {
+            card: {
+                deep: true,
+                handler(newValue, oldValue) {
+                }
+            }
         }
     }
 </script>

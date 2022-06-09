@@ -1,186 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
+import UIkit from 'uikit';
 
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
     state: {
         showSide: true,
-        cards: [
-            {
-                "id": 100,
-                "title": "Заголовок задачи",
-                "project": {
-                  "id": 1,
-                  "name": "Госсталь"
-                },
-                "created_by": {
-                    "id": 1,
-                    "name": "Fjodor Wolf",
-                    "login": "email@example.com",
-                    "avatar": {
-                        "id": 1,
-                        "url": "https://hostname/link/to/file.jpg?sign=hash"
-                    }
-                },
-                "assignee": {
-                    "id": 1,
-                    "name": "Fjodor Wolf",
-                    "login": "email@example.com",
-                    "avatar": {
-                        "id": 1,
-                        "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                    }
-                },
-                "deadline": "2022-05-30T10:20:30+05:00",
-                "column": "wait", // wait - на паузе, in_progress - в работе, done - выполнено
-                "ready": false, // флажок готовности задачи
-                "description": "Описание задачи",
-                "journal": {
-                    "items": [
-                        {
-                            "id": 10,
-                            "type": "create_issue",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
-                            "data": null
-                            // здесь нужно писать - <Пользователь> создал задачу <дата и время>, подставляя в <Пользователь> - чувака из logged_by, дата и время - timestamp
-                        },
-                        {
-                            "id": 11,
-                            "type": "mark_ready",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
-                            "data": null
-                            // здесь нужно писать - <Пользователь> отметил задачу “выполнена” <дата и время>
-                        },
-                        {
-                            "id": 14,
-                            "type": "comment",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
-                            "data": {
-                                "text": "Текст комментария",
-                                "attachments": [ // список прикрепленных к комментарию файлов
-                                    {
-                                        "id": 1,
-                                        "name": "file",
-                                        "extension": "jpg",
-                                        "size": 100500,
-                                        "url": "https://hostname/link/to/file.jpg?sign=hash",
-                                        "uploaded_by": {
-                                            "id": 1,
-                                            "name": "Fjodor Wolf",
-                                            "login": "email@example.com",
-                                            "avatar": {
-                                                "id": 1,
-                                                "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        },
-                        {
-                            "id": 12,
-                            "type": "unmark_ready",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
-                            "data": null
-                            // здесь нужно писать - <Пользователь> отметил что задача не завершена <дата и время>
-                        },
-                        {
-                            "id": 13,
-                            "type": "change_column",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-06-03T10:20:30+05:00",
-                            "data": {
-                                "from": "in_progress",
-                                "to": "wait"
-                            }
-                            // здесь нужно писать - <Пользователь> переместил задачу из колонки <> в колонку <> <дата и время>, колонки надо подставлять из "data"
-                        },
-                        {
-                            "id": 14,
-                            "type": "comment",
-                            "logged_by": {
-                                "id": 1,
-                                "name": "Fjodor Wolf",
-                                "login": "email@example.com",
-                                "avatar": {
-                                    "id": 1,
-                                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                }
-                            },
-                            "timestamp": "2022-05-31T10:20:30+05:00",
-                            "data": {
-                                "text": "Текст комментария",
-                                "attachments": [ // список прикрепленных к комментарию файлов
-                                    {
-                                        "id": 1,
-                                        "name": "file",
-                                        "extension": "jpg",
-                                        "size": 100500,
-                                        "url": "https://hostname/link/to/file.jpg?sign=hash",
-                                        "uploaded_by": {
-                                            "id": 1,
-                                            "name": "Fjodor Wolf",
-                                            "login": "email@example.com",
-                                            "avatar": {
-                                                "id": 1,
-                                                "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                                            }
-                                        }
-                                    }
-                                ]
-                            }
-                        }
-                    ]
-                }
-            }
-               
-        ],
+        cards: [],
         column: [
             {
                 listName:'wait',
@@ -198,53 +26,14 @@ var store = new Vuex.Store({
                 cards: []
             }
         ],
-        projects: [
-            {
-                "id": 1,
-                "name": "Госсталь"
-            },
-            {
-                "id": 2,
-                "name": "Асана"
-            },
-            {
-                "id": 3,
-                "name": "Газпромнефть"
-            }
-           
-        ],
-        users: [
-            {
-                "id": 1,
-                "name": "Fjodor Wolf",
-                "login": "email@example.com",
-                "avatar": {
-                    "id": 1, // IDшник файла
-                    "url": "https://s3.amazonaws.com/profile_photos/1200085450420248.1200085487319217.FQ8CAPul7KOdVKnFlrVR_27x27.png"
-                }
-            },
-            {
-                "id": 2,
-                "name": "Evgeniy Belyaev",
-                "login": "email@example.com",
-                "avatar": null
-            },
-            {
-                "id": 3,
-                "name": "Mary Sue",
-                "login": "email@example.com",
-                "avatar": null
-            }
-        ],
-        maker: {
-            "id": 2,
-            "name": "Evgeniy Belyaev",
-            "login": "email@example.com",
-            "avatar": null
-        },
+        projects: [],
+        users: [],
+        user: null,
         cardDetail: null,
         showDetail: false,
-        isAuth: false
+        isAuth: false,
+        activeUser: null,
+        activeProject: null
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -271,18 +60,45 @@ var store = new Vuex.Store({
             state.cards.find((card, index) => {
                 if (card.id === payload.cardId) {
                     state.cards[index]['column'] = payload.moveTo;
+                    axios({
+                        method: 'post',
+                        url: BASE_URL + '/issue/' + card.id + '/' + payload.moveTo,
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        withCredentials: true,
+                    })
+                    .then(function (response) {
+                        console.log(response.data);
+                    });
                     return true;
                 }
             });
         },
         addCard: function(state, payload) {
-            state.cards.push(payload.card);
-            store.commit('updateColumn');
+            axios({
+                method: 'post',
+                url: BASE_URL + '/issue',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true,
+                data: payload.card
+            }).then((response) => {
+                UIkit.notification("Задача создана", {pos: 'bottom-right'});
+                state.cards.push(payload.card);
+                store.commit('updateColumn');
+            });
         },
         removeCard: function(state, payload) {
             state.cards.forEach((card, indexCard, list)=> {
                 if (card.id == payload.id) {
                     list.splice(indexCard, 1);
+                    axios({
+                        method: 'DELETE',
+                        url: BASE_URL + '/issue/' + card.id,
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        withCredentials: true
+                    })
+                    .then(function (response) {
+                        console.log(response.data);
+                    });
                 }
             });
         },
@@ -296,8 +112,17 @@ var store = new Vuex.Store({
         },
         updateCard: function(state, payload) {
             state.cards.find((card, index) => {
-                if (card.id === payload.id) {
-                    state.cardDetail = card;
+                if (card.id === payload) {
+                    axios({
+                        method: 'patch',
+                        url: BASE_URL + '/issue/' + card.id,
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        withCredentials: true,
+                        data: card
+                    })
+                    .then(function (response) {
+                        console.log(response.data);
+                    });
                 }
             });
         },
@@ -317,6 +142,7 @@ var store = new Vuex.Store({
             state.projects = payload;
         },
         updateState: function(state, payload) {
+            UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
             store.dispatch('getCards');
             store.dispatch('getUsers');
             store.dispatch('getUser');
@@ -328,11 +154,12 @@ var store = new Vuex.Store({
             return new Promise(function(resolve) {
                 axios({
                     method: 'get',
-                    url: BASE_URL + '/user/issues',
+                    url: BASE_URL + '/project/1/issues',
                     headers: {'X-Requested-With': 'XMLHttpRequest'},
                     withCredentials: true
                 })
                 .then(function (response) {
+                    console.log(response.data.items);
                     store.commit('updateCards', response.data.items);
                     resolve();
                 });

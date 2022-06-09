@@ -25,7 +25,7 @@
             }
         },
         props: {
-            messages: Array
+            
         },
         components: {
             VueEditor
