@@ -5,8 +5,12 @@
     border-radius: 8px;
     cursor: pointer;
     
-    .fa-solid {
+    .uk-icon {
         margin-right: 5px;
+        width: 14px;
+        height: 14px;
+        position: relative;
+        top: -1px;
     }
 
     &:hover {
@@ -18,4 +22,41 @@
     font-family: 'Roboto';
     font-size: 14px;
     border: none;
+}
+
+.board-card-error {
+    font-size: 12px;
+    color: red;
+}
+
+.add-card-project {
+    margin-left: 5px;
+
+    .sidebar-list-icon {
+        display: none;
+
+        & + span {
+            display: block;
+            font-size: 12px;
+            height: 24px;
+            line-height: 24px;
+            border-radius: 3px;
+            padding: 0 5px;
+            
+            &:hover {
+                background: #f9f8f8;
+            }
+        }
+    }
+
+    .assignee-clear {
+        display: block;
+    }
+
+    .assignee-select {
+        font-size: 12px;
+        height: 24px;
+        vertical-align: middle;
+
+    }
 }

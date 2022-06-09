@@ -18,6 +18,16 @@
             return {
                 
             }
+        },
+        watch: {
+            $route(to, from) {
+                if (to.path != '/') {
+                    this.$store.dispatch('getCards', to.path);
+                } else {
+                    this.$store.dispatch('getCards', '/user/issues');
+                }
+                
+            }
         }
     }
 </script>

@@ -50,7 +50,7 @@
                     </vue-editor>
                 </div>
 
-                <MessageList v-if="cardDetail.journal" :messages="cardDetail.journal.items"></MessageList>
+                <MessageList v-if="journal" :messages="cardDetail.journal.items"></MessageList>
             </div>
             <div class="card-detail-footer">
                 <MessageSend></MessageSend>
@@ -100,6 +100,9 @@
             },
             cardDetail() {
                 return this.$store.state.cardDetail;
+            },
+            journal() {
+                return this.$store.state.journal;
             }
         },
         methods: {
@@ -113,7 +116,7 @@
                 this.cardDetail[param] = newValue;
             },
             updateCard() {
-                this.$store.commit('updateCard', this.cardDetail.id);
+                this.$store.commit('updateCard', this.cardDetail);
             }
         },
         watch: {

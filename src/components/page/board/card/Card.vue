@@ -1,7 +1,7 @@
 <template>
     <div class="board-card item" @click.self="select">
         <div class="card-remove" @click="removeCard">
-            <i class="fa-regular fa-trash-can"></i>
+            <span class="uk-icon" uk-icon="trash"></span>
         </div>
         <div class="card-body">
             <div @click="select" class="card-title">{{card.title}}</div>
@@ -62,7 +62,7 @@
             },
             updateParam(newValue, param) {
                 this.card[param] = newValue;
-                this.$store.commit('updateCard', this.card.id);
+                this.$store.commit('updateCard', this.card);
             }
         },
         mounted() {

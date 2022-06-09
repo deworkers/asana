@@ -32,8 +32,8 @@ var store = new Vuex.Store({
         cardDetail: null,
         showDetail: false,
         isAuth: false,
-        activeUser: null,
-        activeProject: null
+        activeBoard: null,
+        journal: null
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -42,6 +42,7 @@ var store = new Vuex.Store({
         showDetail: function(state, payload) {
             state.cardDetail = payload;
             state.showDetail = true;
+            store.dispatch('getJournal', payload.id);
         },
         hideDetail: function(state, payload) {
             state.showDetail = false;
@@ -82,6 +83,7 @@ var store = new Vuex.Store({
                 data: payload.card
             }).then((response) => {
                 UIkit.notification("Задача создана", {pos: 'bottom-right'});
+                payload.card.id = response.data.data.id;
                 state.cards.push(payload.card);
                 store.commit('updateColumn');
             });
@@ -111,19 +113,15 @@ var store = new Vuex.Store({
             });
         },
         updateCard: function(state, payload) {
-            state.cards.find((card, index) => {
-                if (card.id === payload) {
-                    axios({
-                        method: 'patch',
-                        url: BASE_URL + '/issue/' + card.id,
-                        headers: {'X-Requested-With': 'XMLHttpRequest'},
-                        withCredentials: true,
-                        data: card
-                    })
-                    .then(function (response) {
-                        console.log(response.data);
-                    });
-                }
+            axios({
+                method: 'patch',
+                url: BASE_URL + '/issue/' + payload.id,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true,
+                data: payload
+            })
+            .then(function (response) {
+                console.log(response.data);
             });
         },
         updateIsAuth:  function(state, payload) {
@@ -137,30 +135,39 @@ var store = new Vuex.Store({
         },
         updateUser: function(state, payload) {
             state.user = payload;
+            state.activeBoard = payload;
+        },
+        updateActiveBoard: function(state, payload) {
+            state.activeBoard = payload;
         },
         updateProjects: function(state, payload) {
             state.projects = payload;
         },
         updateState: function(state, payload) {
             UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
-            store.dispatch('getCards');
+            store.dispatch('getCards', '/user/issues'); // карточки юзера
             store.dispatch('getUsers');
             store.dispatch('getUser');
             store.dispatch('getProjects');
-        }
+        },
+        updateJournal: function(state, payload) {
+            state.journal = payload;
+        },
     },
     actions: {
         getCards: function(context, payload) { // получение списка карточек
             return new Promise(function(resolve) {
                 axios({
                     method: 'get',
-                    url: BASE_URL + '/project/1/issues',
+                    url: BASE_URL + payload,
                     headers: {'X-Requested-With': 'XMLHttpRequest'},
                     withCredentials: true
                 })
                 .then(function (response) {
-                    console.log(response.data.items);
                     store.commit('updateCards', response.data.items);
+                    resolve();
+                }).catch(function (error) {
+                    store.commit('updateCards', []);
                     resolve();
                 });
             });
@@ -207,6 +214,20 @@ var store = new Vuex.Store({
                 });
             });
         },
+        getJournal: function(context, payload) {
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/issue/' + payload + '/journal',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateJournal', response.data.items);
+                    resolve();
+                });
+            });
+        }
     }
 });
 

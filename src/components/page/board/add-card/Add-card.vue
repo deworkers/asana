@@ -1,6 +1,6 @@
 <template>
     <div class="board-add-card">
-        <div class="board-card" v-if="showCard" v-click-outside="hide">
+        <div :class="['board-card' , error ? 'error' : '']" v-if="showCard" v-click-outside="hide">
             <div class="card-body">
                 <div class="card-title">
                     <input 
@@ -14,6 +14,7 @@
             </div>
             <div class="card-bottom">
                 <Assignee
+                    v-if="activeProject"
                     :assignee="assignee"
                     :updateParam="updateParam">
                 </Assignee>
@@ -21,14 +22,19 @@
                     :updateParam="updateParam"
                     :deadline="deadline">
                 </Calendar>
-                <Projects 
-                    :project="project"
-                    :updateParam="updateParam">
-                </Projects>
+                <div 
+                    class="add-card-project"
+                    v-if="!activeProject">
+                    <Projects 
+                        :project="project"
+                        :updateParam="updateParam">
+                    </Projects>
+                </div>
             </div>
         </div>
+        <div class="board-card-error" v-if="error">{{errorMessge}}</div>
         <div class="card-add-button" @click="addCard" v-if="!showCard">
-            <i class="fa-solid fa-plus"></i>Добавить задачу
+            <span class="uk-icon" uk-icon="plus"></span>Добавить задачу
         </div>
     </div>
     
@@ -48,7 +54,9 @@
                 title: '',
                 deadline: null,
                 assignee: null,
-                project: null
+                project: null, 
+                error: false,
+                errorMessge: ''
             }
         },
         props: {
@@ -81,33 +89,39 @@
                 });
             },
             hide() {
-                if (this.title.length > 0) {
+                if (this.title.length > 0 && this.project != null) {
                     this.$store.commit('addCard', {
                         card: {
                             title: this.title,
                             column: this.listName,
                             project: this.project,
-                            created_by: this.user,
                             assignee: this.assignee,
                             deadline: this.deadline,
                             column: this.listName,
                             ready: false, 
-                            description: "",
-                            journal: {
-                                items: []
-                            }
+                            description: ""
                         },
                     });
+                    this.error = false;
+                    this.title = '';
+                    this.showCard = false;
+                } else {
+                    if (this.title.length == 0) {
+                        this.errorMessge = 'Введите название задачи';
+                    } else {
+                        this.errorMessge = 'Выберите проект';
+                    }
+                    
+                    this.error = true;
                 }
-                this.title = '';
-                this.showCard = false;
             },
             updateParam(newValue, param) {
                 this[param] = newValue;
+                this.error = false;
             },
         },
         mounted() {
-            
+            this.project = this.activeProject;
         }
     }
 </script>

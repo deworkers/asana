@@ -14,7 +14,7 @@
         >
         <template v-slot:default="{toggle, inputValue}">
             <div class="cart-dueDate cart-dueDate--add" @click="toggle" v-if="date == null">
-                <i class="fa-regular fa-calendar"></i>
+                <span class="uk-icon" uk-icon="calendar"></span>
             </div>
             <button class="date-button" @click="toggle" v-if="date != null">
                  {{ localeDate || 'Выбрать дату' }}

@@ -18,31 +18,31 @@
                 <div class="Sidebar-menu">
                     <a class="Sidebar-menu-one active" href="#">
                         <div class="Sidebar-menu-icon">
-                            <i class="fa-solid fa-house"></i>
+                            <span class="uk-icon" uk-icon="home"></span>
                         </div>
                         <div class="Sidebar-menu-name">Главная</div>
                     </a>
                     <a class="Sidebar-menu-one" href="#">
                         <div class="Sidebar-menu-icon">
-                            <i class="fa-regular fa-circle-check"></i>
+                            <span class="uk-icon" uk-icon="check"></span>
                         </div>
                         <div class="Sidebar-menu-name">Мои задачи</div>
                     </a>
                     <a class="Sidebar-menu-one" href="#">
                         <div class="Sidebar-menu-icon">
-                            <i class="fa-regular fa-bell"></i>
+                            <span class="uk-icon" uk-icon="comments"></span>
                         </div>
                         <div class="Sidebar-menu-name">Входящие</div>
                     </a>
                     <a class="Sidebar-menu-one" href="#">
                         <div class="Sidebar-menu-icon">
-                            <i class="fa-solid fa-house"></i>
+                            <span class="uk-icon" uk-icon="file-edit"></span>
                         </div>
                         <div class="Sidebar-menu-name">Отчёты</div>
                     </a>
                     <a class="Sidebar-menu-one" href="#">
                         <div class="Sidebar-menu-icon">
-                            <i class="fa-solid fa-house"></i>
+                            <span class="uk-icon" uk-icon="calendar"></span>
                         </div>
                         <div class="Sidebar-menu-name">Цели</div>
                     </a>
@@ -51,14 +51,14 @@
                     <SidebarMenu
                         :list="users"
                         :title="'Специалисты'"
-                        :api="'/api/user/'"
+                        :api="'userBoard'"
                         :iconClass="''"
                     >
                     </SidebarMenu>
                     <SidebarMenu
                         :list="projects"
                         :title="'Проекты'"
-                        :api="'/api/project/'"
+                        :api="'projectBoard'"
                         :iconClass="'sidebar-list-icon--project'"
                     >
                     </SidebarMenu>

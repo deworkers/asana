@@ -3,10 +3,14 @@
         <div class="sidebar-list-title">{{title}}</div>
         <div class="sidebar-list-ul">
             <draggable class="sidebar-group" draggable=".sidebar-list-li" :list="list" group="group" @change="log($event)">
-                <a :href="api + item.id + '/issues'" class="sidebar-list-li" v-for="(item, index) in list">
+                <router-link 
+                    :to="{ name: api, params: { id: item.id }}" 
+                    class="sidebar-list-li"
+                    @click.native="updateActiveBoard(item)"
+                    v-for="(item, index) in list">
                     <div :class="['sidebar-list-icon', iconClass]"></div>
-                    <div class="sidebar-list-name">{{item.name}}</div>
-                </a>
+                    <div  class="sidebar-list-name">{{item.name}}</div>
+                </router-link>
             </draggable>
         </div>
     </div>
@@ -34,6 +38,10 @@
         methods: {
             log(event) {
                console.log(event); 
+            },
+            updateActiveBoard(object) {
+                console.log('updateActiveBoard');
+                this.$store.commit('updateActiveBoard', object);
             }
         },
     }
