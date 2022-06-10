@@ -135,7 +135,6 @@ var store = new Vuex.Store({
         },
         updateUser: function(state, payload) {
             state.user = payload;
-            state.activeBoard = payload;
         },
         updateActiveBoard: function(state, payload) {
             state.activeBoard = payload;
@@ -145,7 +144,6 @@ var store = new Vuex.Store({
         },
         updateState: function(state, payload) {
             UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
-            store.dispatch('getCards', '/user/issues'); // карточки юзера
             store.dispatch('getUsers');
             store.dispatch('getUser');
             store.dispatch('getProjects');
@@ -156,6 +154,9 @@ var store = new Vuex.Store({
     },
     actions: {
         getCards: function(context, payload) { // получение списка карточек
+            let getUrl = (url) => {
+                return url.slice(0, url.length - 7);
+            }
             return new Promise(function(resolve) {
                 axios({
                     method: 'get',
@@ -165,9 +166,25 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateCards', response.data.items);
+                    store.dispatch('getActiveBoard', getUrl(payload));
                     resolve();
                 }).catch(function (error) {
                     store.commit('updateCards', []);
+                    store.dispatch('getActiveBoard', getUrl(payload));
+                    resolve();
+                });
+            });
+        },
+        getActiveBoard: function(context, payload) { // получение данных пользователя
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + payload,
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateActiveBoard', response.data);
                     resolve();
                 });
             });
@@ -182,6 +199,9 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateUsers', response.data.items);
+                    resolve();
+                }).catch(function (error) {
+                    store.commit('updateUsers', []);
                     resolve();
                 });
             });
@@ -211,6 +231,9 @@ var store = new Vuex.Store({
                 .then(function (response) {
                     store.commit('updateProjects', response.data.items);
                     resolve();
+                }).catch(function (error) {
+                    store.commit('updateProjects', []);
+                    resolve();
                 });
             });
         },
@@ -224,6 +247,9 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateJournal', response.data.items);
+                    resolve();
+                }).catch(function (error) {
+                    store.commit('updateJournal', []);
                     resolve();
                 });
             });

@@ -33,7 +33,7 @@
                     <div class="card-detail-info__title">Проекты</div>
                     <div class="card-detail-info__text">
                         <Projects 
-                            :project="cardDetail.project"
+                            :project="cardDetail.project != undefined ? cardDetail.project : null"
                             :updateParam="updateParam">
                         </Projects>
                     </div>
@@ -50,7 +50,7 @@
                     </vue-editor>
                 </div>
 
-                <MessageList v-if="journal" :messages="cardDetail.journal.items"></MessageList>
+                <MessageList v-if="journal" :messages="cardDetail.journal"></MessageList>
             </div>
             <div class="card-detail-footer">
                 <MessageSend></MessageSend>

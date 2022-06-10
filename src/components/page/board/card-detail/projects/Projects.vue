@@ -1,11 +1,11 @@
 <template>
     <div class="assignee">
-        <div class="assignee-select" v-if="project !== null" @click="toggleList">
+        <div class="assignee-select" v-if="renderProject !== null" @click="toggleList">
             <div class="sidebar-list-icon sidebar-list-icon--project"></div>
-            <span>{{project.name}}</span>
+            <span>{{renderProject.name}}</span>
         </div>
-        <div class="assignee-clear" @click="clear" v-if="project !== null"></div>
-        <div class="project-select--add" v-if="project == null" @click="toggleList">
+        <div class="assignee-clear" @click="clear" v-if="renderProject !== null"></div>
+        <div class="project-select--add" v-if="renderProject == null" @click="toggleList">
             <span>Добавить в проект</span>
         </div>
         <div class="assignee-list" v-if="show" v-click-outside="toggleList">
@@ -24,7 +24,8 @@
         name: 'Assignee',
         data: function() {
             return {
-                show: false
+                show: false,
+                projectTmp: null
             }
         },
         props: {
@@ -37,6 +38,13 @@
         computed: {
             projects() {
                 return this.$store.state.projects;
+            },
+            renderProject() {
+                if (this.project) {
+                    return this.project;
+                } else {
+                    return this.projectTmp;
+                }
             }
         },
         methods: {
@@ -46,13 +54,17 @@
             select(project) {
                 this.toggleList();
                 this.updateParam(project, 'project');
+                this.projectTmp = project;
             },
             clear() {
                 this.updateParam(null, 'project');
+                this.projectTmp = null;
             }
         },
         mounted() {
-            
+            if (this.project) {
+                this.projectTmp = this.project;
+            }
         }
     }
 </script>

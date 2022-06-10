@@ -14,7 +14,6 @@
             </div>
             <div class="card-bottom">
                 <Assignee
-                    v-if="activeProject"
                     :assignee="assignee"
                     :updateParam="updateParam">
                 </Assignee>
@@ -22,14 +21,6 @@
                     :updateParam="updateParam"
                     :deadline="deadline">
                 </Calendar>
-                <div 
-                    class="add-card-project"
-                    v-if="!activeProject">
-                    <Projects 
-                        :project="project"
-                        :updateParam="updateParam">
-                    </Projects>
-                </div>
             </div>
         </div>
         <div class="board-card-error" v-if="error">{{errorMessge}}</div>
@@ -89,7 +80,7 @@
                 });
             },
             hide() {
-                if (this.title.length > 0 && this.project != null) {
+                if (this.title.length > 0) {
                     this.$store.commit('addCard', {
                         card: {
                             title: this.title,
@@ -102,17 +93,16 @@
                             description: ""
                         },
                     });
-                    this.error = false;
                     this.title = '';
                     this.showCard = false;
                 } else {
-                    if (this.title.length == 0) {
-                        this.errorMessge = 'Введите название задачи';
-                    } else {
-                        this.errorMessge = 'Выберите проект';
-                    }
-                    
-                    this.error = true;
+                    // if (this.title.length == 0) {
+                    //     this.errorMessge = 'Введите название задачи';
+                    // } else {
+                    //     this.errorMessge = 'Выберите проект';
+                    // }
+                    this.title = '';
+                    this.showCard = false;
                 }
             },
             updateParam(newValue, param) {

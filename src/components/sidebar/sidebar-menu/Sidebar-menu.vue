@@ -7,6 +7,7 @@
                     :to="{ name: api, params: { id: item.id }}" 
                     class="sidebar-list-li"
                     @click.native="updateActiveBoard(item)"
+                    :key="item.id"
                     v-for="(item, index) in list">
                     <div :class="['sidebar-list-icon', iconClass]"></div>
                     <div  class="sidebar-list-name">{{item.name}}</div>
@@ -40,7 +41,6 @@
                console.log(event); 
             },
             updateActiveBoard(object) {
-                console.log('updateActiveBoard');
                 this.$store.commit('updateActiveBoard', object);
             }
         },

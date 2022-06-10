@@ -62,6 +62,8 @@
                         this.$router.push({ path: '/' });
                         UIkit.notification("Успешная авторизация", {pos: 'bottom-right'})
                     }
+                }).catch((error) => {
+                    UIkit.notification("Ошибка авторизации", {pos: 'bottom-right', status:'warning'})
                 });
             }
         }
