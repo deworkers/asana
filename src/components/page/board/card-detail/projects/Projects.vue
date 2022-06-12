@@ -30,7 +30,15 @@
         },
         props: {
             project: Object,
-            updateParam: Function
+            updateParam: Function,
+            activeProject: {
+                type: Object,
+                default: null
+            },
+            addCard: {
+                type: Boolean,
+                default: false
+            }
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -64,6 +72,11 @@
         mounted() {
             if (this.project) {
                 this.projectTmp = this.project;
+            }
+
+            if (this.addCard && this.activeProject != null) {
+                this.updateParam(this.activeProject, 'project');
+                this.projectTmp = this.activeProject;
             }
         }
     }

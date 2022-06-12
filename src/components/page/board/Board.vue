@@ -50,11 +50,42 @@
             }
         },
         methods: {
+            getNewColumn(column) {
+                let list;
+                this.column.forEach((element, index) => {
+                    if (element.listName == column) {
+                        list = element.cards;
+                    }
+                });
+                return list;
+            },
+            getNextIssue(list, index) {
+                return list[index + 1] != undefined ? {id: list[index + 1].id} : null;
+            },
+            getPrevNextIssue(list, index) {
+                return list[index - 1] != undefined ? {id: list[index - 1].id} : null;
+            },
             log: function(evt, payload) {
+                let list = this.getNewColumn(payload);
+                console.log(evt);
                 if ('added' in evt) {
+                    let index = evt.added.newIndex;
+
                     this.$store.commit('moveCard', {
                         moveTo: payload,
-                        cardId: evt.added.element.id
+                        cardId: evt.added.element.id,
+                        prev_issue: getPrevNextIssue(list, index),
+                        next_issue: getNextIssue(list, index)
+                    });
+                }
+
+                if ('moved' in evt) {
+                    let index = evt.moved.newIndex;
+                    this.$store.commit('moveCard', {
+                        moveTo: payload,
+                        cardId: evt.moved.element.id,
+                        prev_issue: getPrevNextIssue(list, index),
+                        next_issue: getNextIssue(list, index)
                     });
                 }
             }

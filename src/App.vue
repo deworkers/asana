@@ -42,7 +42,7 @@
                         }
                     }
                 }).catch((error) => {
-                    //this.$router.replace({ name: 'login' }).catch(()=>{});
+                    this.$router.replace({ name: 'login' }).catch(()=>{});
                 });
             }
         },

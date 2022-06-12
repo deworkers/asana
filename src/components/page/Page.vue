@@ -7,7 +7,8 @@
                 </svg>
             </div>
             <div class="topbar-user" v-if="activeBoard != null">
-                <div class="topbar-user-name">eb</div>
+                <div v-if="activeBoard.avatar == null" class="topbar-user-name">{{initials(activeBoard.name)}}</div>
+                <img v-if="activeBoard.avatar != null" :src="activeBoard.avatar.url" alt="">
             </div>
             <div class="topbar-header" v-if="activeBoard != null">
                 <h1>{{activeBoard.name}}</h1>
@@ -38,11 +39,15 @@
             },
             activeBoard() {
                 return this.$store.state.activeBoard
-            }
+            },
+            
         },
         methods: {
             toogleSide() {
                 this.$store.commit('toogleSide');
+            },
+            initials(str) {
+                return str.split(/\s+/).map((item,i) => item[0].toUpperCase()).join('');
             }
         },
         mounted() {

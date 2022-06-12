@@ -60,6 +60,7 @@
                         this.$store.commit('updateIsAuth', true);
                         this.$store.commit('updateState');
                         this.$router.push({ path: '/' });
+                        this.$store.dispatch('getCards', '/user/issues');
                         UIkit.notification("Успешная авторизация", {pos: 'bottom-right'})
                     }
                 }).catch((error) => {

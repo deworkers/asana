@@ -33,7 +33,15 @@
         },
         props: {
             assignee: Object,
-            updateParam: Function
+            updateParam: Function,
+            activeUser: {
+                type: Object,
+                default: null
+            },
+            addCard: {
+                type: Boolean,
+                default: false
+            }
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -59,7 +67,9 @@
             }
         },
         mounted() {
-            
+            if (this.addCard && this.activeUser != null) {
+                this.updateParam(this.activeUser, 'assignee');
+            }
         }
     }
 </script>

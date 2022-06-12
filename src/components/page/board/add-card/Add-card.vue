@@ -14,13 +14,23 @@
             </div>
             <div class="card-bottom">
                 <Assignee
+                    :activeUser="activeBoardType == 'user' ? activeBoard : null"
+                    :addCard="true"
                     :assignee="assignee"
                     :updateParam="updateParam">
                 </Assignee>
-                <Calendar 
+                <Calendar
                     :updateParam="updateParam"
                     :deadline="deadline">
                 </Calendar>
+                <div class="add-card-project">
+                    <Projects
+                        :addCard="true"
+                        :activeProject="activeBoardType == 'project' ? activeBoard : null"
+                        :project="project"
+                        :updateParam="updateParam">
+                    </Projects>
+                </div>
             </div>
         </div>
         <div class="board-card-error" v-if="error">{{errorMessge}}</div>
@@ -33,6 +43,8 @@
 
 <script>
     import ClickOutside from 'v-click-outside';
+    import UIkit from 'uikit';
+
     import Calendar from './../card-detail/calendar/Calendar.vue';
     import Assignee from './../card-detail/assignee/Assignee.vue';
     import Projects from './../card-detail/projects/Projects.vue';
@@ -65,11 +77,11 @@
             user() {
                 return this.$store.state.user;
             },
-            activeUser() {
-                return this.$store.state.activeUser;
+            activeBoard() {
+                return this.$store.state.activeBoard;
             },
-            activeProject() {
-                return this.$store.state.activeProject;
+            activeBoardType() {
+                return this.$store.state.activeBoardType;
             }
         },
         methods: {
@@ -80,7 +92,7 @@
                 });
             },
             hide() {
-                if (this.title.length > 0) {
+                if ( this.title.length > 0 && this.project != null ) {
                     this.$store.commit('addCard', {
                         card: {
                             title: this.title,
@@ -93,22 +105,29 @@
                             description: ""
                         },
                     });
-                    this.title = '';
-                    this.showCard = false;
+
+                    this.clear();
                 } else {
-                    // if (this.title.length == 0) {
-                    //     this.errorMessge = 'Введите название задачи';
-                    // } else {
-                    //     this.errorMessge = 'Выберите проект';
-                    // }
-                    this.title = '';
-                    this.showCard = false;
+                    if (this.title.length == 0) {
+                        UIkit.notification("Пустое название задачи", {pos: 'bottom-right', status:'warning'})
+                    }
+
+                    if (this.project == null) {
+                        UIkit.notification("Не выбран проект", {pos: 'bottom-right', status:'warning'})
+                    }
+
+                    this.clear();
                 }
             },
             updateParam(newValue, param) {
                 this[param] = newValue;
                 this.error = false;
             },
+            clear() {
+                this.title = '';
+                this.showCard = false;
+                this.project =null;
+            }
         },
         mounted() {
             this.project = this.activeProject;

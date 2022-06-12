@@ -33,6 +33,7 @@ var store = new Vuex.Store({
         showDetail: false,
         isAuth: false,
         activeBoard: null,
+        activeBoardType: null,
         journal: null
     },
     mutations: {
@@ -66,6 +67,10 @@ var store = new Vuex.Store({
                         url: BASE_URL + '/issue/' + card.id + '/' + payload.moveTo,
                         headers: {'X-Requested-With': 'XMLHttpRequest'},
                         withCredentials: true,
+                        data: {
+                            "prev_issue": payload.prev_issue,
+                            "next_issue": payload.next_issue
+                        }
                     })
                     .then(function (response) {
                         console.log(response.data);
@@ -139,6 +144,9 @@ var store = new Vuex.Store({
         updateActiveBoard: function(state, payload) {
             state.activeBoard = payload;
         },
+        updateActiveBoardType: function(state, payload) {
+            state.activeBoardType = payload;
+        },
         updateProjects: function(state, payload) {
             state.projects = payload;
         },
@@ -157,6 +165,13 @@ var store = new Vuex.Store({
             let getUrl = (url) => {
                 return url.slice(0, url.length - 7);
             }
+
+            if (payload.indexOf('project') >= 0) {
+                store.commit('updateActiveBoardType', 'project');
+            } else {
+                store.commit('updateActiveBoardType', 'user');
+            }
+
             return new Promise(function(resolve) {
                 axios({
                     method: 'get',
