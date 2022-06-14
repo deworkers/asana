@@ -74,8 +74,8 @@
                     this.$store.commit('moveCard', {
                         moveTo: payload,
                         cardId: evt.added.element.id,
-                        prev_issue: getPrevNextIssue(list, index),
-                        next_issue: getNextIssue(list, index)
+                        prev_issue: this.getPrevNextIssue(list, index),
+                        next_issue: this.getNextIssue(list, index)
                     });
                 }
 
@@ -84,8 +84,8 @@
                     this.$store.commit('moveCard', {
                         moveTo: payload,
                         cardId: evt.moved.element.id,
-                        prev_issue: getPrevNextIssue(list, index),
-                        next_issue: getNextIssue(list, index)
+                        prev_issue: this.getPrevNextIssue(list, index),
+                        next_issue: this.getNextIssue(list, index)
                     });
                 }
             }

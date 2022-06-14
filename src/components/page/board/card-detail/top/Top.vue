@@ -28,7 +28,8 @@
         props: {
             hide: Function,
             ready: Boolean,
-            updateParam: Function
+            updateParam: Function,
+            id: Number
         },
         components: {
 
@@ -38,6 +39,10 @@
         methods: {
             compleet() {
                 this.updateParam(!this.ready, 'ready');
+                this.$store.commit('setCompleet', {
+                    id: this.id,
+                    ready: this.ready
+                });
             }
         },
         mounted() {

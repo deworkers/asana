@@ -47,6 +47,10 @@
         methods: {
             compleet() {
                 this.card.ready = !this.card.ready;
+                this.$store.commit('setCompleet', {
+                    id: this.card.id,
+                    ready: this.card.ready
+                });
             },
             showCalendar() {
                 this.show = !this.show;

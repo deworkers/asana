@@ -4,6 +4,7 @@
             <Top 
                 :hide="hide"
                 :updateParam="updateParam"
+                :id="cardDetail.id"
                 :ready="cardDetail.ready"></Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
@@ -39,18 +40,26 @@
                     </div>
                 </div>
 
-                <div class="card-detail-info">
-                    <div class="card-detail-info__title">Описание</div>
+                
+                <div class="card-tab-list">
+                    <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive == 'description'? 'active' : '']">Описание</div>
+                    <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер</div>
                 </div>
-
-                <div class="card-editor">
-                    <vue-editor 
+                <div class="card-tab-body">
+                    <div class="card-editor" v-if="tabActive == 'description'">
+                        <vue-editor
                         v-model="$store.state.cardDetail.description" 
                         :editor-toolbar="customToolbar">
                     </vue-editor>
                 </div>
+                <div class=""  v-if="tabActive == 'time'">
+                        <Timer :id="cardDetail.id"></Timer>
+                        {{timeSpent}}
+                    </div>
+                </div>
 
-                <MessageList v-if="journal" :messages="cardDetail.journal"></MessageList>
+
+                <MessageList v-if="journal" :messages="journal"></MessageList>
             </div>
             <div class="card-detail-footer">
                 <MessageSend></MessageSend>
@@ -68,6 +77,7 @@
     import Assignee from './assignee/Assignee.vue';
     import Projects from './projects/Projects.vue';
     import MessageSend from './message-send/MessageSend.vue';
+    import Timer from './timer/Timer.vue';
 
     export default {
         name: 'Card-detail',
@@ -79,7 +89,8 @@
                     ["bold", "italic", "underline"],
                     [{ list: "ordered" }, { list: "bullet" }],
                     ["image", "code-block", "blockquote", "link"]
-                ]
+                ],
+                tabActive: 'description'
             }
         },
         components: {
@@ -89,7 +100,8 @@
             Top,
             Assignee,
             Projects,
-            MessageSend
+            MessageSend,
+            Timer
         },
         directives: {
             clickOutside: ClickOutside.directive
@@ -103,7 +115,10 @@
             },
             journal() {
                 return this.$store.state.journal;
-            }
+            },
+            timeSpent() {
+                return this.$store.state.timeSpent;
+            },
         },
         methods: {
             hide(event) {
@@ -117,6 +132,9 @@
             },
             updateCard() {
                 this.$store.commit('updateCard', this.cardDetail);
+            },
+            setActiveTab(tab) {
+                this.tabActive = tab;
             }
         },
         watch: {

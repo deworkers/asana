@@ -34,7 +34,8 @@ var store = new Vuex.Store({
         isAuth: false,
         activeBoard: null,
         activeBoardType: null,
-        journal: null
+        journal: null,
+        timeSpent: null
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -110,11 +111,16 @@ var store = new Vuex.Store({
             });
         },
         addComment: function(state, payload) {
-            state.cards.find((card, index) => {
-                if (card.id === payload.id) {
-                    card.journal.items.push(payload.comment);
-                    state.cardDetail = card;
+            axios({
+                method: 'post',
+                url: BASE_URL + '/issue/' + payload.id + '/comment',
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true,
+                data: {
+                    text: payload.text
                 }
+            }).then((response) => {
+                store.dispatch('getJournal', payload.id);
             });
         },
         updateCard: function(state, payload) {
@@ -159,6 +165,20 @@ var store = new Vuex.Store({
         updateJournal: function(state, payload) {
             state.journal = payload;
         },
+        updateTimeSpent: function(state, payload) {
+            state.timeSpent = payload;
+        },
+        setCompleet: function(state, payload) {
+            let action = payload.ready ? 'mark_ready' : 'unmark_ready';
+            axios({
+                method: 'post',
+                url: BASE_URL + '/issue/' + payload.id + '/' + action,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true
+            }).then((response) => {
+                UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
+            });
+        }
     },
     actions: {
         getCards: function(context, payload) { // получение списка карточек
@@ -268,7 +288,24 @@ var store = new Vuex.Store({
                     resolve();
                 });
             });
-        }
+        },
+        getTimeSpent: function(context, payload) {
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/issue/' + payload + '/time-spent',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateTimeSpent', response.data.items);
+                    resolve();
+                }).catch(function (error) {
+                    store.commit('updateTimeSpent', []);
+                    resolve();
+                });
+            });
+        },
     }
 });
 

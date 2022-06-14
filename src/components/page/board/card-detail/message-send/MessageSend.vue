@@ -31,28 +31,16 @@
             VueEditor
         },
         computed: {
-            maker() {
-                return this.$store.state.maker;
-            },
             cardDetail() {
                 return this.$store.state.cardDetail;
             }
         },
         methods: {
             send() {
-                let comment = {
-                    id: Math.floor(Math.random() * 100000),
-                    type: 'comment',
-                    logged_by: this.maker,
-                    timestamp: moment().toISOString(true),
-                    data: {
-                        text: this.text
-                    }
-                }
                 if (this.text.length > 0) {
                     this.$store.commit('addComment', {
                         id: this.cardDetail.id,
-                        comment: comment
+                        text: this.text
                     });
                     this.text = '';
                 }

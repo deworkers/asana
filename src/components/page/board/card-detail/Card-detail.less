@@ -72,7 +72,7 @@ div.ql-container.ql-snow {
     margin: 25px 0;
     position: relative;
     border: 1px solid transparent;
-    border-radius: 10px;
+    border-radius: 5px;
 
     &:hover {
         border: 1px solid #000;
@@ -251,4 +251,24 @@ div.ql-container.ql-snow {
     font-size: 14px;
     z-index: 10;
     cursor: pointer;
+}
+
+.card-tab-list {
+	display: flex;
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    margin-bottom: 20px;
+}
+
+.card-tab-list__one {
+    font-size: 14px;
+    line-height: 18px;
+    padding: 5px 10px;
+    position: relative;
+    top: 1px;
+    cursor: pointer;
+
+	&.active {
+        border-bottom: 1px solid #4573d2;
+    }
 }

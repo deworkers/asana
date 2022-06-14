@@ -132,10 +132,9 @@
 .sidebar-list-li {
 	text-decoration: none;
     color: #e1e1e1;
-    align-items: center;
+    align-items: top;
     display: flex;
-    height: 32px;
-    line-height: 32px;
+    min-height: 32px;
     padding: 0 24px 0 24px;
     font-size: 14px;
 
@@ -163,7 +162,7 @@
         border-radius: 2px;
         display: block;
         position: relative;
-        top: 0px;
+        top: 12px;
         left: 2px;
     }
 }
@@ -175,5 +174,7 @@
 }
 
 .sidebar-list-name {
-	
+    width: calc(100% - 20px);
+    padding: 9px 0;
+    line-height: 16px;
 }
