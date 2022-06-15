@@ -52,9 +52,9 @@
                             :editor-toolbar="customToolbar">
                         </vue-editor>
                     </div>
-                    <div class="card-timer"  v-if="tabActive == 'time'">
+                    <div class="time-tracker"  v-if="tabActive == 'time'">
                         <Timer :id="cardDetail.id"></Timer>
-                        {{timeSpent}}
+                        <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
                 </div>
 
@@ -78,6 +78,7 @@
     import Projects from './projects/Projects.vue';
     import MessageSend from './message-send/MessageSend.vue';
     import Timer from './timer/Timer.vue';
+    import TimeSpent from './time-spent/TimeSpent.vue';
 
     export default {
         name: 'Card-detail',
@@ -101,7 +102,8 @@
             Assignee,
             Projects,
             MessageSend,
-            Timer
+            Timer,
+            TimeSpent
         },
         directives: {
             clickOutside: ClickOutside.directive

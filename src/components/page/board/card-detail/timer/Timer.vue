@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="card-timer">
         <button v-if="!started" @click="start" class="uk-button uk-button-primary uk-button-small"><span class="uk-icon uk-margin-small-right" uk-icon="future"></span>Старт выполнения</button>
         <button v-if="started" @click="stop" class="uk-button uk-button-danger uk-button-small"><span class="uk-icon uk-margin-small-right" uk-icon="ban"></span>Остановить выполнение</button>
         <span v-if="started">{{formattedElapsedTime}}</span>
