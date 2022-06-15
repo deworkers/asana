@@ -1,6 +1,6 @@
 <template>
     <div class="message-list">
-        <div v-for="message in messages">
+        <div v-for="message in messages" class="message-list-one">
             <Comment v-if="message.type == 'comment'" :message="message"></Comment>
             <Change v-if="message.type == 'change_column'" :message="message"></Change>
             <Ready v-if="message.type == 'mark_ready'" :message="message"></Ready>

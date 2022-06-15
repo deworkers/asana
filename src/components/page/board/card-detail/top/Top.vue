@@ -41,7 +41,7 @@
                 this.updateParam(!this.ready, 'ready');
                 this.$store.commit('setCompleet', {
                     id: this.id,
-                    ready: this.ready
+                    ready: !this.ready
                 });
             }
         },

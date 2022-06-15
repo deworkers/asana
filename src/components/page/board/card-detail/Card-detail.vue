@@ -48,11 +48,11 @@
                 <div class="card-tab-body">
                     <div class="card-editor" v-if="tabActive == 'description'">
                         <vue-editor
-                        v-model="$store.state.cardDetail.description" 
-                        :editor-toolbar="customToolbar">
-                    </vue-editor>
-                </div>
-                <div class=""  v-if="tabActive == 'time'">
+                            v-model="$store.state.cardDetail.description" 
+                            :editor-toolbar="customToolbar">
+                        </vue-editor>
+                    </div>
+                    <div class="card-timer"  v-if="tabActive == 'time'">
                         <Timer :id="cardDetail.id"></Timer>
                         {{timeSpent}}
                     </div>

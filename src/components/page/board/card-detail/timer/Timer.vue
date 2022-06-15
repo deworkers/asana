@@ -1,7 +1,7 @@
 <template>
-    <div id="app">
-        <button v-if="!started" @click="start" class="uk-button uk-button-primary">Старт выполнения</button>
-        <button v-if="started" @click="stop" class="uk-button uk-button-danger">Остановить выполнение</button>
+    <div>
+        <button v-if="!started" @click="start" class="uk-button uk-button-primary uk-button-small"><span class="uk-icon uk-margin-small-right" uk-icon="future"></span>Старт выполнения</button>
+        <button v-if="started" @click="stop" class="uk-button uk-button-danger uk-button-small"><span class="uk-icon uk-margin-small-right" uk-icon="ban"></span>Остановить выполнение</button>
         <span v-if="started">{{formattedElapsedTime}}</span>
     </div>
 </template>
@@ -61,6 +61,14 @@
                     console.log(response.data);
                 });
             }
-        }
+        },
+        watch: {
+            id(newValue, oldValue) {
+                this.$store.dispatch('getTimeSpent', this.id);
+            }
+        },
+        mounted () {
+            this.$store.dispatch('getTimeSpent', this.id);
+        },
     };
 </script>

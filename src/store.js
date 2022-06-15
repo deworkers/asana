@@ -176,6 +176,7 @@ var store = new Vuex.Store({
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 withCredentials: true
             }).then((response) => {
+                store.dispatch('getJournal', payload.id);
                 UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
             });
         }
