@@ -54,11 +54,12 @@
                     withCredentials: true,
                     data: {
                         "started_at": this.startTime,
-                        "ended_at": this.stopTime
+                        "ended_at": this.stopTime,
+                        "comment": 'Работа по таймеру'
                     }
                 })
-                .then(function (response) {
-                    console.log(response.data);
+                .then((response) => {
+                    this.$store.dispatch('getTimeSpent', this.id);
                 });
             }
         },
