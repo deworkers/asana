@@ -256,6 +256,21 @@ var store = new Vuex.Store({
                 });
             });
         },
+        getDelails: function(context, payload) {
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/issue/' + payload,
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.state.cardDetail = response.data;
+                    store.dispatch('getJournal', payload);
+                    resolve();
+                });
+            });
+        },
         getProjects: function(context, payload) { // получение списка проектов
             return new Promise(function(resolve) {
                 axios({

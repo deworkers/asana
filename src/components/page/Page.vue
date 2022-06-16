@@ -20,7 +20,6 @@
 
 <script>
     import Board from './board/Board.vue';
-    import Avatar from '@/avatar/Avatar.vue';
 
     export default {
         name: 'Page',
@@ -30,8 +29,7 @@
             }
         },
         components: {
-            Board,
-            Avatar
+            Board
         },
         computed: {
             showSide() {

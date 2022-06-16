@@ -1,10 +1,11 @@
 <template>
     <transition name="slideRight">
-        <div class="card-detail" v-if="showDetail" v-click-outside="hide">
+        <div :class="['card-detail', isCard ? 'card-detail--veiw':'']" v-if="showDetail || isCard" v-click-outside="hide">
             <Top 
                 :hide="hide"
                 :updateParam="updateParam"
                 :id="cardDetail.id"
+                :isCard="isCard"
                 :ready="cardDetail.ready"></Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
@@ -92,6 +93,12 @@
                     ["image", "code-block", "blockquote", "link"]
                 ],
                 tabActive: 'description'
+            }
+        },
+        props: {
+            isCard: {
+                type: Boolean,
+                default: false
             }
         },
         components: {

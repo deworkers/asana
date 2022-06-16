@@ -31,12 +31,6 @@
                         if (response.data.success) {
                             this.$store.commit('updateIsAuth', true);
                             this.$store.commit('updateState');
-
-                            if (this.$route.path != '/') {
-                                this.$store.dispatch('getCards', this.$route.path);
-                            } else {
-                                this.$store.dispatch('getCards', '/user/issues');
-                            }
                         } else {
                             this.$router.replace({ name: 'login' }).catch(()=>{});
                         }
