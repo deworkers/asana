@@ -16,7 +16,7 @@
             <div class="cart-dueDate cart-dueDate--add" @click="toggle" v-if="date == null">
                 <span class="uk-icon" uk-icon="calendar"></span>
             </div>
-            <button class="date-button" @click="toggle" v-if="date != null">
+            <button :class="['date-button', diff < 18 ? 'alert' : '']" @click="toggle" v-if="date != null">
                  {{ localeDate || 'Выбрать дату' }}
             </button>
             <button @click="clear" class="assignee-clear" v-if="date != null"></button>
@@ -52,9 +52,13 @@
             cardDetail() {
                 return this.$store.state.cardDetail;
             },
+            diff() {
+                return moment(this.deadline).diff(moment(), 'hours');
+            },
             localeDate() {
                 let date = moment(this.deadline);
-                return  date.locale("ru").fromNow();
+                let time = date.hours() == 0 && date.minutes() == 0 ? '' : date.locale("ru").format(" в HH:mm");
+                return  date.locale("ru").format("DD.MM.YYYY") + time;
             }
         },
         methods: {
@@ -64,16 +68,11 @@
             },
             clear() {
                 this.date = null;
-            },
-            datePharse() {
-                let date = moment(this.date);
-                return date.toISOString(true);
             }
         },
         watch: {
             date(newValue, oldValue) {
                 this.$nextTick(function () {
-                    this.datePharse(); // отправка в бекенд даты с таймзоной
                     this.updateParam(this.date, 'deadline');
                 })
             },

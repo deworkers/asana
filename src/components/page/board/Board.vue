@@ -17,6 +17,17 @@
                     </AddCard>
                 </draggable>
             </div>
+            <div class="board-col" v-if="activeBoardType == 'project' && archive.length > 0">
+                <h3 class="board-col-title">Архив</h3>
+                <div class="board-group">
+                    <Card
+                        v-for="(card, index) in archive"
+                        :key="card.id"
+                        :listName="'archive'"
+                        :card="card"
+                    ></Card>
+                </div>
+            </div>
         </div>
         <CardDetail></CardDetail>
     </div>
@@ -47,6 +58,12 @@
             },
             column() {
                 return this.$store.state.column;
+            },
+            archive() {
+                return this.$store.state.archive;
+            },
+            activeBoardType() {
+                return this.$store.state.activeBoardType;
             }
         },
         methods: {

@@ -6,7 +6,8 @@
                 :updateParam="updateParam"
                 :id="cardDetail.id"
                 :isCard="isCard"
-                :ready="cardDetail.ready"></Top>
+                :ready="cardDetail.ready">
+            </Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
                     <div class="shadow">{{title}}</div>

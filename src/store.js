@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import axios from 'axios';
 import UIkit from 'uikit';
+import moment from 'moment';
 
 Vue.use(Vuex);
 
@@ -9,6 +10,7 @@ var store = new Vuex.Store({
     state: {
         showSide: true,
         cards: [],
+        archive: [],
         column: [
             {
                 listName:'wait',
@@ -124,12 +126,15 @@ var store = new Vuex.Store({
             });
         },
         updateCard: function(state, payload) {
+            let card = {};
+            Object.assign(card, payload);
+            card.deadline = card.deadline ? moment(payload.deadline).format() : null;
             axios({
                 method: 'patch',
                 url: BASE_URL + '/issue/' + payload.id,
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 withCredentials: true,
-                data: payload
+                data: card
             })
             .then(function (response) {
                 console.log(response.data);
@@ -140,6 +145,9 @@ var store = new Vuex.Store({
         },
         updateCards: function(state, payload) {
             state.cards = payload;
+        },
+        updateArchive: function(state, payload) {
+            state.archive = payload;
         },
         updateUsers: function(state, payload) {
             state.users = payload;
@@ -158,8 +166,8 @@ var store = new Vuex.Store({
         },
         updateState: function(state, payload) {
             UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
-            store.dispatch('getUsers');
             store.dispatch('getUser');
+            store.dispatch('getUsers');
             store.dispatch('getProjects');
         },
         updateJournal: function(state, payload) {
@@ -211,6 +219,27 @@ var store = new Vuex.Store({
                 });
             });
         },
+        getArchive: function(context, payload) { // получение архива
+            return new Promise(function(resolve) {
+                if (store.state.activeBoardType == 'project') {
+                    axios({
+                        method: 'get',
+                        url: BASE_URL + '/project/' + payload + '/archive',
+                        headers: {'X-Requested-With': 'XMLHttpRequest'},
+                        withCredentials: true
+                    })
+                    .then(function (response) {
+                        store.commit('updateArchive', response.data.items);
+                        resolve();
+                    }).catch(function (error) {
+                        store.commit('updateArchive', []);
+                        resolve();
+                    });
+                } else {
+                    store.commit('updateArchive', []);
+                }
+            });
+        },
         getActiveBoard: function(context, payload) { // получение данных пользователя
             return new Promise(function(resolve) {
                 axios({
@@ -221,6 +250,7 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateActiveBoard', response.data);
+                    store.dispatch('getArchive', response.data.id);
                     resolve();
                 });
             });

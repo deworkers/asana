@@ -21,10 +21,16 @@
         },
         watch: {
             $route(to, from) {
+                let needUpdate = to.name == from.name;
                 if (to.path != '/') {
-                    this.$store.dispatch('getCards', to.path);
+                    if (needUpdate) {
+                        this.$store.dispatch('getCards', to.path);
+                        this.$store.dispatch('getArchive', to.params.id);
+                    }
                 } else {
-                    this.$store.dispatch('getCards', '/user/issues');
+                    if (needUpdate) {
+                        this.$store.dispatch('getCards', '/user/issues');
+                    }
                 }
                 
             }
