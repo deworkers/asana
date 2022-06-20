@@ -138,6 +138,8 @@ var store = new Vuex.Store({
             })
             .then(function (response) {
                 console.log(response.data);
+            }).catch(function (error) {
+                console.log(error);
             });
         },
         updateIsAuth:  function(state, payload) {
@@ -352,6 +354,11 @@ var store = new Vuex.Store({
                 });
             });
         },
+    },
+    getters: {
+        getCardById: state => id => {
+            return state.cards.find(card => card.id === id);
+        }
     }
 });
 

@@ -32,7 +32,10 @@
             hide: Function,
             ready: Boolean,
             updateParam: Function,
-            id: Number,
+            id: {
+                type: Number,
+                default: null
+            },
             isCard: {
                 type: Boolean,
                 default: false

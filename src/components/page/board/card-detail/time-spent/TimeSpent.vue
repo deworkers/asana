@@ -18,16 +18,15 @@
                     <td>{{item.comment}}</td>
                     <td>
                         <button class="uk-icon-button uk-margin-small-right" uk-icon="trash" @click="deleted(item.id)"></button>
-                        <button class="uk-icon-button uk-margin-small-right" uk-icon="pencil"></button>
+                        <button class="uk-icon-button uk-margin-small-right" uk-icon="pencil" @click="edit(item.id)"></button>
                     </td>
                 </tr>
+                <Form v-if="editForm == item.id" :id="id" :toggleForm="toggleForm" :spend="item"></Form>
             </tbody>
         </table>
         <div class="time-spent-new">
-            <button class="uk-button uk-button-primary uk-button-small">Добавить отметку</button>
-            <div class="">
-                
-            </div>
+            <button  v-if="!viewForm" class="uk-button uk-button-primary uk-button-small" @click="toggleForm">Добавить отметку</button>
+            <Form v-if="viewForm" :id="id" :toggleForm="toggleForm"></Form>
         </div>
     </div>
 </template>
@@ -35,19 +34,21 @@
 <script>
     import moment from 'moment';
     import axios from 'axios';
+    import Form from './form/Form.vue'
 
     export default {
         name: 'TimeSpent',
         data: function() {
             return {
-                //ready: false
+                viewForm: false,
+                editForm: null
             }
         },
         props: {
             id: Number
         },
         components: {
-
+            Form
         },
         computed: {
             timeSpent() {
@@ -71,6 +72,9 @@
                 .then((response) => {
                     this.$store.dispatch('getTimeSpent', this.id);
                 });
+            },
+            toggleForm() {
+                this.viewForm = !this.viewForm;
             }
         },
         mounted() {
