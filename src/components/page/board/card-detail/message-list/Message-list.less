@@ -1,19 +1,27 @@
 .message-list {
     background: #f9f8f8;
     margin: auto -10px 0;
-    padding: 20px 15px;
+    padding: 20px 1px;
 }
 
 .comment-one {
-    padding: 10px 0;
-    padding-left: 40px;
+    padding: 10px 10px;
+    padding-left: 50px;
     position: relative;
 
     .avatar {
         position: absolute;
         top: 5px;
-        left: 0;
+        left: 10px;
     }
+
+    &:hover {
+        background: #fff;
+    }
+}
+
+.comment-edit {
+    color: #999;
 }
 
 .comment-one {
@@ -69,6 +77,9 @@
     font-size: 12px;
     line-height: 18px;
     margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
     strong {
         font-size: 14px;
@@ -86,7 +97,7 @@
 .card-log-one {
     color: #6d6e6f;
     font-size: 12px;
-    padding-left: 40px;
+    padding-left: 50px;
     line-height: 16px;
 
     strong {

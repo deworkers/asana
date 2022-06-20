@@ -62,14 +62,6 @@
                     this.$store.dispatch('getTimeSpent', this.id);
                 });
             }
-        },
-        watch: {
-            id(newValue, oldValue) {
-                this.$store.dispatch('getTimeSpent', this.id);
-            }
-        },
-        mounted () {
-            this.$store.dispatch('getTimeSpent', this.id);
-        },
+        }
     };
 </script>

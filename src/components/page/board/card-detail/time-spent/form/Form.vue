@@ -61,21 +61,43 @@
         methods: {
             sendTimeSpend() {
                 if (this.ended_at || this.duration && this.duration > 0) {
-                    axios({
-                        method: 'post',
-                        url: BASE_URL + '/issue/' + this.id + '/time-spent',
-                        headers: {'X-Requested-With': 'XMLHttpRequest'},
-                        withCredentials: true,
-                        data: {
-                            "started_at":  moment(this.started_at).format(),
-                            "ended_at": moment(this.ended_at).format(),
-                            "comment": this.comment
-                        }
-                    })
-                    .then((response) => {
-                        this.$store.dispatch('getTimeSpent', this.id);
-                        toggleForm();
-                    });
+                    if (!this.spend) { // добавляем
+                        axios({
+                            method: 'post',
+                            url: BASE_URL + '/issue/' + this.id + '/time-spent',
+                            headers: {'X-Requested-With': 'XMLHttpRequest'},
+                            withCredentials: true,
+                            data: {
+                                "started_at":  moment(this.started_at).format(),
+                                "ended_at": moment(this.ended_at).format(),
+                                "comment": this.comment
+                            }
+                        })
+                        .then((response) => {
+                            this.$store.dispatch('getTimeSpent', this.id);
+                            this.toggleForm();
+                        }).catch(() => {
+                            this.toggleForm();
+                        });
+                    } else {
+                        axios({
+                            method: 'put',
+                            url: BASE_URL + '/issue/' + this.id + '/time-spent/' + this.spend.id,
+                            headers: {'X-Requested-With': 'XMLHttpRequest'},
+                            withCredentials: true,
+                            data: {
+                                "started_at":  moment(this.started_at).format(),
+                                "ended_at": moment(this.ended_at).format(),
+                                "comment": this.comment
+                            }
+                        })
+                        .then((response) => {
+                            this.$store.dispatch('getTimeSpent', this.id);
+                            this.toggleForm();
+                        }).catch(() => {
+                            this.toggleForm();
+                        });
+                    }
                 }
             }
         },
@@ -90,7 +112,14 @@
             }
         },
         mounted() {
-            this.started_at = moment().format('yyyy-MM-DDTHH:mm');
+            if (this.spend) {
+                this.started_at = moment(this.spend.started_at).format('yyyy-MM-DDTHH:mm');
+                this.ended_at = moment(this.spend.ended_at).format('yyyy-MM-DDTHH:mm');
+                this.comment = this.spend.comment;
+
+            } else {
+                this.started_at = moment().format('yyyy-MM-DDTHH:mm');
+            }
         }
     }
 </script>

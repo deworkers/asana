@@ -47,6 +47,7 @@ var store = new Vuex.Store({
             state.cardDetail = payload;
             state.showDetail = true;
             store.dispatch('getJournal', payload.id);
+            store.dispatch('getTimeSpent', payload.id);
         },
         hideDetail: function(state, payload) {
             state.showDetail = false;
@@ -107,6 +108,7 @@ var store = new Vuex.Store({
                         withCredentials: true
                     })
                     .then(function (response) {
+                        store.dispatch('getArchive');
                         console.log(response.data);
                     });
                 }
@@ -226,7 +228,7 @@ var store = new Vuex.Store({
                 if (store.state.activeBoardType == 'project') {
                     axios({
                         method: 'get',
-                        url: BASE_URL + '/project/' + payload + '/archive',
+                        url: BASE_URL + '/project/' + store.state.activeBoard.id + '/archive',
                         headers: {'X-Requested-With': 'XMLHttpRequest'},
                         withCredentials: true
                     })
@@ -252,7 +254,7 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateActiveBoard', response.data);
-                    store.dispatch('getArchive', response.data.id);
+                    store.dispatch('getArchive');
                     resolve();
                 });
             });
@@ -299,6 +301,7 @@ var store = new Vuex.Store({
                 .then(function (response) {
                     store.state.cardDetail = response.data;
                     store.dispatch('getJournal', payload);
+                    store.dispatch('getTimeSpent', payload);
                     resolve();
                 });
             });

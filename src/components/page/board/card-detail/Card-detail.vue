@@ -48,13 +48,13 @@
                     <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер</div>
                 </div>
                 <div class="card-tab-body">
-                    <div class="card-editor" v-if="tabActive == 'description'">
+                    <div class="card-editor" v-show="tabActive == 'description'">
                         <vue-editor
                             v-model="$store.state.cardDetail.description" 
                             :editor-toolbar="customToolbar">
                         </vue-editor>
                     </div>
-                    <div class="time-tracker"  v-if="tabActive == 'time'">
+                    <div class="time-tracker"  v-show="tabActive == 'time'">
                         <Timer :id="cardDetail.id"></Timer>
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
@@ -125,10 +125,7 @@
             },
             journal() {
                 return this.$store.state.journal;
-            },
-            timeSpent() {
-                return this.$store.state.timeSpent;
-            },
+            }
         },
         methods: {
             hide(event) {
