@@ -37,7 +37,8 @@ var store = new Vuex.Store({
         activeBoard: null,
         activeBoardType: null,
         journal: null,
-        timeSpent: null
+        timeSpent: null,
+        attachments: null
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -48,6 +49,7 @@ var store = new Vuex.Store({
             state.showDetail = true;
             store.dispatch('getJournal', payload.id);
             store.dispatch('getTimeSpent', payload.id);
+            store.dispatch('getAttachments', payload.id);
         },
         hideDetail: function(state, payload) {
             state.showDetail = false;
@@ -179,6 +181,9 @@ var store = new Vuex.Store({
         },
         updateTimeSpent: function(state, payload) {
             state.timeSpent = payload;
+        },
+        updateAttachments: function(state, payload) {
+            state.attachments = payload;
         },
         setCompleet: function(state, payload) {
             let action = payload.ready ? 'mark_ready' : 'unmark_ready';
@@ -357,6 +362,23 @@ var store = new Vuex.Store({
                 });
             });
         },
+        getAttachments: function(context, payload) {
+            return new Promise(function(resolve) {
+                axios({
+                    method: 'get',
+                    url: BASE_URL + '/issue/' + payload + '/attachments',
+                    headers: {'X-Requested-With': 'XMLHttpRequest'},
+                    withCredentials: true
+                })
+                .then(function (response) {
+                    store.commit('updateAttachments', response.data.items);
+                    resolve();
+                }).catch(function (error) {
+                    store.commit('updateAttachments', []);
+                    resolve();
+                });
+            });
+        }
     },
     getters: {
         getCardById: state => id => {

@@ -46,6 +46,7 @@
                 <div class="card-tab-list">
                     <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive == 'description'? 'active' : '']">Описание</div>
                     <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер</div>
+                    <div @click="setActiveTab('attachments')" :class="['card-tab-list__one', tabActive == 'attachments'? 'active' : '']">Вложения</div>
                 </div>
                 <div class="card-tab-body">
                     <div class="card-editor" v-show="tabActive == 'description'">
@@ -57,6 +58,9 @@
                     <div class="time-tracker"  v-show="tabActive == 'time'">
                         <Timer :id="cardDetail.id"></Timer>
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
+                    </div>
+                    <div class="attachments"  v-show="tabActive == 'attachments'">
+                        <Attachments></Attachments> 
                     </div>
                 </div>
 
@@ -81,6 +85,7 @@
     import MessageSend from './message-send/MessageSend.vue';
     import Timer from './timer/Timer.vue';
     import TimeSpent from './time-spent/TimeSpent.vue';
+    import Attachments from './attachments/Attachments.vue';
 
     export default {
         name: 'Card-detail',
@@ -111,7 +116,8 @@
             Projects,
             MessageSend,
             Timer,
-            TimeSpent
+            TimeSpent,
+            Attachments
         },
         directives: {
             clickOutside: ClickOutside.directive
