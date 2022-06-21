@@ -60,7 +60,7 @@
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
                     <div class="attachments"  v-show="tabActive == 'attachments'">
-                        <Attachments></Attachments> 
+                        <Attachments :id="cardDetail.id"></Attachments> 
                     </div>
                 </div>
 
