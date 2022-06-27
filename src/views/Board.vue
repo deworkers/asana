@@ -34,6 +34,9 @@
                 }
                 
             }
-        }
+        },
+        mounted () {
+            this.$store.dispatch('openWebSocket');
+        },
     }
 </script>

@@ -13,9 +13,9 @@
         :displayFormat="'DD.MM.YYYY HH:mm'"
         >
         <template v-slot:default="{toggle, inputValue}">
-            <div class="cart-dueDate cart-dueDate--add" @click="toggle" v-if="date == null">
+            <button class="cart-dueDate cart-dueDate--add" @click="toggle" v-if="date == null">
                 <span class="uk-icon" uk-icon="calendar"></span>
-            </div>
+            </button>
             <button :class="['date-button', diff < 18 ? 'alert' : '']" @click="toggle" v-if="date != null">
                  {{ localeDate || 'Выбрать дату' }}
             </button>

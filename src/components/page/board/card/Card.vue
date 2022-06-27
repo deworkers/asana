@@ -1,8 +1,8 @@
 <template>
     <div class="board-card item" @click.self="select">
-        <div class="card-remove" @click="removeCard">
+        <button class="card-remove" @click="removeCard">
             <span class="uk-icon" uk-icon="trash"></span>
-        </div>
+        </button>
         <div class="card-body">
             <div @click="select" class="card-title">{{card.title}}</div>
             <div 

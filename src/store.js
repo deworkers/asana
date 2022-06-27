@@ -4,6 +4,9 @@ import axios from 'axios';
 import UIkit from 'uikit';
 import moment from 'moment';
 
+let socket = new WebSocket('wss://task.sbtest.ru/api/ws');
+let socketId = 0;
+
 Vue.use(Vuex);
 
 var store = new Vuex.Store({
@@ -257,9 +260,28 @@ var store = new Vuex.Store({
                     headers: {'X-Requested-With': 'XMLHttpRequest'},
                     withCredentials: true
                 })
-                .then(function (response) {
+                .then((response) => {
                     store.commit('updateActiveBoard', response.data);
                     store.dispatch('getArchive');
+
+                    socket.send(JSON.stringify({
+                        action: "unsubscribe",
+                        id: ++socketId,
+                        payload: {
+                            type: "*",
+                            id: "*"
+                        }
+                    }));
+
+                    socket.send(JSON.stringify({
+                        action: "subscribe",
+                        id: ++socketId,
+                        payload: {
+                            type: store.state.activeBoardType,
+                            id: response.data.id
+                        }
+                    }));
+                    
                     resolve();
                 });
             });
@@ -291,6 +313,7 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateUser', response.data);
+
                     resolve();
                 });
             });
@@ -378,6 +401,24 @@ var store = new Vuex.Store({
                     resolve();
                 });
             });
+        },
+        openWebSocket: function(context, payload) {
+            socket.onopen = function () {
+                
+            }
+
+            socket.onerror = function () {
+                console.error('Websocket has been disconnected', arguments);
+            }
+
+            socket.onclose = function () {
+                console.error('Websocket has been closed', arguments);
+            }
+
+            socket.onmessage = function(event) {
+                console.log(event);
+            };
+              
         }
     },
     getters: {

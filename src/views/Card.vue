@@ -33,11 +33,6 @@
             initials(str) {
                 return str.split(/\s+/).map((item,i) => item[0].toUpperCase()).join('');
             }
-        },
-        watch: {
-            $route(to, from) {
-                
-            }
         }
     }
 </script>

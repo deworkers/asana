@@ -8,7 +8,7 @@ module.exports = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
-        filename: 'index.bundle.js',
+        filename: 'index.bundle.js?v=[hash]',
     },
     module: {
         rules: [
@@ -37,7 +37,9 @@ module.exports = {
         ]
     },
     plugins: [
-        new MiniCssExtractPlugin(),
+        new MiniCssExtractPlugin({
+            filename: '[name].css?v=[hash]'
+        }),
         new webpack.DefinePlugin({
             BASE_URL: '"https://task.sbtest.ru/api"'
         })
