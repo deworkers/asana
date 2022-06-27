@@ -17,10 +17,10 @@
                 </div>
                 <div class="uk-text-center uk-margin">
                     <div class="uk-padding-small">
-                        Нет учетной записи? <a class="uk-link" href="#">Регистрация</a>
+                        Нет учетной записи? <a class="uk-link" href="/register">Регистрация</a>
                     </div>
                     <div class="uk-padding-small">
-                        <a class="uk-link" href="#">Забыли пароль?</a>
+                        <a class="uk-link" href="/restore">Забыли пароль?</a>
                     </div>
                 </div>
             </div>
@@ -39,8 +39,8 @@
         },
         data() {
             return {
-                login: 'z-be@yandex.ru',
-                password: 'PgDXJe4BdYVcGECyVWbc',
+                login: '',
+                password: '',
                 user: null,
             }
         },

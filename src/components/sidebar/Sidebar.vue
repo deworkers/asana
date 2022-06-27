@@ -2,8 +2,9 @@
     <transition name="slide">
         <div id="sidebar" class="sidebar" v-if="showSide">
             <div class="Sidebar sidebarRoot">
+                
                 <div class="SidebarHeader">
-                    <a aria-label="На главную страницу Asana" class="SidebarHeader-Logo BaseLink" href="#">Asana</a>
+                    <a aria-label="На главную страницу Asana" class="SidebarHeader-Logo BaseLink" href="/">Asana</a>
                     <button class="SideBurgerIcon SidebarHeader-sideBurgerIcon" aria-label="Скрыть боковую панель" @click="toogleSide">
                         <svg class="SideBurgerIcon-image" viewBox="0 0 50 32">
                             <path d="M49,4H19c-0.6,0-1-0.4-1-1s0.4-1,1-1h30c0.6,0,1,0.4,1,1S49.6,4,49,4z"></path>
@@ -15,53 +16,58 @@
                         </svg>
                     </button>
                 </div>
-                <div class="Sidebar-menu">
-                    <a class="Sidebar-menu-one active" href="#">
-                        <div class="Sidebar-menu-icon">
-                            <span class="uk-icon" uk-icon="home"></span>
-                        </div>
-                        <div class="Sidebar-menu-name">Главная</div>
-                    </a>
-                    <a class="Sidebar-menu-one" href="#">
-                        <div class="Sidebar-menu-icon">
-                            <span class="uk-icon" uk-icon="check"></span>
-                        </div>
-                        <div class="Sidebar-menu-name">Мои задачи</div>
-                    </a>
-                    <a class="Sidebar-menu-one" href="#">
-                        <div class="Sidebar-menu-icon">
-                            <span class="uk-icon" uk-icon="comments"></span>
-                        </div>
-                        <div class="Sidebar-menu-name">Входящие</div>
-                    </a>
-                    <a class="Sidebar-menu-one" href="#">
-                        <div class="Sidebar-menu-icon">
-                            <span class="uk-icon" uk-icon="file-edit"></span>
-                        </div>
-                        <div class="Sidebar-menu-name">Отчёты</div>
-                    </a>
-                    <a class="Sidebar-menu-one" href="#">
-                        <div class="Sidebar-menu-icon">
-                            <span class="uk-icon" uk-icon="calendar"></span>
-                        </div>
-                        <div class="Sidebar-menu-name">Цели</div>
-                    </a>
+                <div class="sidebar-body">
+                    <div class="Sidebar-menu">
+                        <a class="Sidebar-menu-one active" href="/">
+                            <div class="Sidebar-menu-icon">
+                                <span class="uk-icon" uk-icon="home"></span>
+                            </div>
+                            <div class="Sidebar-menu-name">Главная</div>
+                        </a>
+                        <a class="Sidebar-menu-one" href="/user/issues">
+                            <div class="Sidebar-menu-icon">
+                                <span class="uk-icon" uk-icon="check"></span>
+                            </div>
+                            <div class="Sidebar-menu-name">Мои задачи</div>
+                        </a>
+                        <!-- <a class="Sidebar-menu-one" href="#">
+                            <div class="Sidebar-menu-icon">
+                                <span class="uk-icon" uk-icon="comments"></span>
+                            </div>
+                            <div class="Sidebar-menu-name">Входящие</div>
+                        </a>
+                        <a class="Sidebar-menu-one" href="#">
+                            <div class="Sidebar-menu-icon">
+                                <span class="uk-icon" uk-icon="file-edit"></span>
+                            </div>
+                            <div class="Sidebar-menu-name">Отчёты</div>
+                        </a>
+                        <a class="Sidebar-menu-one" href="#">
+                            <div class="Sidebar-menu-icon">
+                                <span class="uk-icon" uk-icon="calendar"></span>
+                            </div>
+                            <div class="Sidebar-menu-name">Цели</div>
+                        </a> -->
+                    </div>
+                    <div class="Sidebar-scroll-panel">
+                        <SidebarMenu
+                            :list="users"
+                            :title="'Специалисты'"
+                            :api="'userBoard'"
+                            :iconClass="''"
+                        >
+                        </SidebarMenu>
+                        <SidebarMenu
+                            :list="projects"
+                            :title="'Проекты'"
+                            :api="'projectBoard'"
+                            :iconClass="'sidebar-list-icon--project'"
+                        >
+                        </SidebarMenu>
+                    </div>
                 </div>
-                <div class="Sidebar-scroll-panel">
-                    <SidebarMenu
-                        :list="users"
-                        :title="'Специалисты'"
-                        :api="'userBoard'"
-                        :iconClass="''"
-                    >
-                    </SidebarMenu>
-                    <SidebarMenu
-                        :list="projects"
-                        :title="'Проекты'"
-                        :api="'projectBoard'"
-                        :iconClass="'sidebar-list-icon--project'"
-                    >
-                    </SidebarMenu>
+                <div class="sidebar-footer">
+                    <TaskTimer></TaskTimer>
                 </div>
             </div>
         </div>
@@ -70,7 +76,8 @@
 
 <script>
     import draggable from "vuedraggable";
-    import SidebarMenu from './sidebar-menu/Sidebar-menu.vue'
+    import SidebarMenu from './sidebar-menu/Sidebar-menu.vue';
+    import TaskTimer from './task-timer/Task-timer.vue';
 
     export default {
         name: 'Sidebar',
@@ -80,7 +87,8 @@
             }
         },
         components: {
-            SidebarMenu
+            SidebarMenu,
+            TaskTimer
         },
         computed: {
             showSide() {

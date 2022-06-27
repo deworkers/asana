@@ -9,16 +9,34 @@
 }
 
 .topbar {
-    align-items: center;
     background: #fff;
     box-sizing: border-box;
     display: flex;
+    align-items: center;
+    justify-content: space-between;
     flex-shrink: 0;
     min-height: 72px;
     padding: 0 24px;
     position: relative;
     z-index: 200;
     border-bottom: 1px solid #eae7e6;
+}
+
+.topbar-left {
+    display: flex;
+    align-items: center;
+}
+
+.topbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.topbar-logout {
+    a {
+        color: #6d6e6f;
+        text-decoration: none;
+    }
 }
 
 .topbar-user {

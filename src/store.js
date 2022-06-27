@@ -6,6 +6,7 @@ import moment from 'moment';
 
 let socket = new WebSocket('wss://task.sbtest.ru/api/ws');
 let socketId = 0;
+let timer;
 
 Vue.use(Vuex);
 
@@ -68,9 +69,10 @@ var store = new Vuex.Store({
             });
         },
         moveCard: function(state, payload) {
+            console.log(payload);
             state.cards.find((card, index) => {
+                let moveFrom = state.cards[index]['column'];
                 if (card.id === payload.cardId) {
-                    state.cards[index]['column'] = payload.moveTo;
                     axios({
                         method: 'post',
                         url: BASE_URL + '/issue/' + card.id + '/' + payload.moveTo,
@@ -81,8 +83,15 @@ var store = new Vuex.Store({
                             "next_issue": payload.next_issue
                         }
                     })
-                    .then(function (response) {
-                        console.log(response.data);
+                    .then((response) => {
+                        state.cards[index]['column'] = payload.moveTo;
+                        UIkit.notification("Карточка перемещена", {pos: 'bottom-right'});
+
+                    })
+                    .catch((response) => {
+                        state.cards[index]['column'] = moveFrom;
+                        store.commit('updateColumn');
+                        UIkit.notification("Карточка не может быть перемещена", {pos: 'bottom-right'});
                     });
                     return true;
                 }
@@ -113,8 +122,8 @@ var store = new Vuex.Store({
                         withCredentials: true
                     })
                     .then(function (response) {
+                        UIkit.notification("Задача перемещена в архив", {pos: 'bottom-right'});
                         store.dispatch('getArchive');
-                        console.log(response.data);
                     });
                 }
             });
@@ -197,7 +206,7 @@ var store = new Vuex.Store({
                 withCredentials: true
             }).then((response) => {
                 store.dispatch('getJournal', payload.id);
-                UIkit.notification("Состояние обновлено", {pos: 'bottom-right'})
+                UIkit.notification("Задача помечена как " + payload.ready ? 'выполнена' : 'не выполнена', {pos: 'bottom-right'});
             });
         }
     },
@@ -313,7 +322,6 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateUser', response.data);
-
                     resolve();
                 });
             });
@@ -404,7 +412,7 @@ var store = new Vuex.Store({
         },
         openWebSocket: function(context, payload) {
             socket.onopen = function () {
-                
+                UIkit.notification("socket подключен", {pos: 'bottom-right'});
             }
 
             socket.onerror = function () {
@@ -415,8 +423,13 @@ var store = new Vuex.Store({
                 console.error('Websocket has been closed', arguments);
             }
 
-            socket.onmessage = function(event) {
+            socket.onmessage = (event) => {
                 console.log(event);
+                // clearTimeout(timer);
+                // timer = setTimeout(() => {
+                //     let patch = location.hash.replace('#', '');
+                //     store.dispatch('getCards', patch == '/' ? '/user/issues' : patch );
+                // }, 1000);
             };
               
         }

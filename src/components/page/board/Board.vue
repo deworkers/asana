@@ -84,7 +84,6 @@
             },
             log: function(evt, payload) {
                 let list = this.getNewColumn(payload);
-                console.log(evt);
                 if ('added' in evt) {
                     let index = evt.added.newIndex;
 
