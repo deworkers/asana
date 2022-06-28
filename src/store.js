@@ -69,7 +69,6 @@ var store = new Vuex.Store({
             });
         },
         moveCard: function(state, payload) {
-            console.log(payload);
             state.cards.find((card, index) => {
                 let moveFrom = state.cards[index]['column'];
                 if (card.id === payload.cardId) {
@@ -273,23 +272,23 @@ var store = new Vuex.Store({
                     store.commit('updateActiveBoard', response.data);
                     store.dispatch('getArchive');
 
-                    socket.send(JSON.stringify({
-                        action: "unsubscribe",
-                        id: ++socketId,
-                        payload: {
-                            type: "*",
-                            id: "*"
-                        }
-                    }));
+                    // socket.send(JSON.stringify({
+                    //     action: "unsubscribe",
+                    //     id: ++socketId,
+                    //     payload: {
+                    //         type: "*",
+                    //         id: "*"
+                    //     }
+                    // }));
 
-                    socket.send(JSON.stringify({
-                        action: "subscribe",
-                        id: ++socketId,
-                        payload: {
-                            type: store.state.activeBoardType,
-                            id: response.data.id
-                        }
-                    }));
+                    // socket.send(JSON.stringify({
+                    //     action: "subscribe",
+                    //     id: ++socketId,
+                    //     payload: {
+                    //         type: store.state.activeBoardType,
+                    //         id: response.data.id
+                    //     }
+                    // }));
                     
                     resolve();
                 });
@@ -413,6 +412,14 @@ var store = new Vuex.Store({
         openWebSocket: function(context, payload) {
             socket.onopen = function () {
                 UIkit.notification("socket подключен", {pos: 'bottom-right'});
+                socket.send(JSON.stringify({
+                    action: "subscribe",
+                    id: ++socketId,
+                    payload: {
+                        type: '*',
+                        id: '*'
+                    }
+                }));
             }
 
             socket.onerror = function () {

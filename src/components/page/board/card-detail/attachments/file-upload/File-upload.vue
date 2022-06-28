@@ -98,7 +98,7 @@
                 })
                 .then((response) => {
                     if (response.data.success) {
-                         axios({
+                        axios({
                             method: 'post',
                             url: BASE_URL + '/issue/' + this.id + '/attachment/' + response.data.data.id,
                             headers: {'X-Requested-With': 'XMLHttpRequest'},

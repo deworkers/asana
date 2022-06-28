@@ -15,6 +15,15 @@
                 </div>
 
                 <div class="card-detail-info">
+                    <div class="card-detail-info__title">Автор задачи</div>
+                    <div class="card-detail-info__text">
+                        <div class="assignee-select">
+                            <Avatar :user="cardDetail.created_by"></Avatar>
+                            {{cardDetail.created_by.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="card-detail-info">
                     <div class="card-detail-info__title">Исполнитель</div>
                     <div class="card-detail-info__text">
                         <Assignee 
@@ -86,6 +95,7 @@
     import Timer from './timer/Timer.vue';
     import TimeSpent from './time-spent/TimeSpent.vue';
     import Attachments from './attachments/Attachments.vue';
+    import Avatar from '@/avatar/Avatar.vue';
 
     export default {
         name: 'Card-detail',
@@ -117,7 +127,8 @@
             MessageSend,
             Timer,
             TimeSpent,
-            Attachments
+            Attachments,
+            Avatar
         },
         directives: {
             clickOutside: ClickOutside.directive
