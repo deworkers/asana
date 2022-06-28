@@ -54,7 +54,7 @@
                 
                 <div class="card-tab-list">
                     <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive == 'description'? 'active' : '']">Описание</div>
-                    <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер</div>
+                    <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер {{timeSpentTotal}}</div>
                     <div @click="setActiveTab('attachments')" :class="['card-tab-list__one', tabActive == 'attachments'? 'active' : '']">Вложения</div>
                 </div>
                 <div class="card-tab-body">
@@ -65,7 +65,10 @@
                         </vue-editor>
                     </div>
                     <div class="time-tracker"  v-show="tabActive == 'time'">
-                        <Timer :id="cardDetail.id"></Timer>
+                        <Timer 
+                            :title="cardDetail.title" 
+                            :id="cardDetail.id">
+                        </Timer>
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
                     <div class="attachments"  v-show="tabActive == 'attachments'">
@@ -96,6 +99,7 @@
     import TimeSpent from './time-spent/TimeSpent.vue';
     import Attachments from './attachments/Attachments.vue';
     import Avatar from '@/avatar/Avatar.vue';
+    import moment from 'moment';
 
     export default {
         name: 'Card-detail',
@@ -142,11 +146,14 @@
             },
             journal() {
                 return this.$store.state.journal;
-            }
+            },
+            timeSpentTotal() {
+                return moment.utc(this.$store.state.timeSpentTotal*1000).format('HH:mm:ss');
+            },
         },
         methods: {
             hide(event) {
-                if (event.target.className !== 'card-title' && event.target.className !== 'card-bottom' && event.target.className !== 'board-card item') {
+                if (event.target.className !== 'card-title' && event.target.className !== 'card-bottom' && event.target.className !== 'board-card item' && !event.target.classList.contains('card-timer-button')) {
                     this.updateCard();
                     this.$store.commit('hideDetail');
                 }

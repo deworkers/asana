@@ -42,7 +42,10 @@ var store = new Vuex.Store({
         activeBoardType: null,
         journal: null,
         timeSpent: null,
-        attachments: null
+        timeSpentTotal: null,
+        attachments: null,
+        timingTask: null,
+        timingStart: false
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -193,6 +196,9 @@ var store = new Vuex.Store({
         updateTimeSpent: function(state, payload) {
             state.timeSpent = payload;
         },
+        updateTimeSpentTotal: function(state, payload) {
+            state.timeSpentTotal = payload;
+        },
         updateAttachments: function(state, payload) {
             state.attachments = payload;
         },
@@ -207,7 +213,13 @@ var store = new Vuex.Store({
                 store.dispatch('getJournal', payload.id);
                 UIkit.notification("Задача помечена как " + payload.ready ? 'выполнена' : 'не выполнена', {pos: 'bottom-right'});
             });
-        }
+        },
+        updateTimingTask: function(state, payload) {
+            state.timingTask = payload;
+        },
+        updateTimingStart: function(state, payload) {
+            state.timingStart = payload;
+        },
     },
     actions: {
         getCards: function(context, payload) { // получение списка карточек
@@ -385,9 +397,11 @@ var store = new Vuex.Store({
                 })
                 .then(function (response) {
                     store.commit('updateTimeSpent', response.data.items);
+                    store.commit('updateTimeSpentTotal', response.data.total_spent);
                     resolve();
                 }).catch(function (error) {
                     store.commit('updateTimeSpent', []);
+                    store.commit('updateTimeSpentTotal', null);
                     resolve();
                 });
             });
