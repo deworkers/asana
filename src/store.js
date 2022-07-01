@@ -123,7 +123,7 @@ var store = new Vuex.Store({
                         headers: {'X-Requested-With': 'XMLHttpRequest'},
                         withCredentials: true
                     })
-                    .then(function (response) {
+                    .then((response) => {
                         UIkit.notification("Задача перемещена в архив", {pos: 'bottom-right'});
                         store.dispatch('getArchive');
                     });
@@ -133,11 +133,12 @@ var store = new Vuex.Store({
         restoreCard: function(state, payload) {
             axios({
                 method: 'POST',
-                url: BASE_URL + '/issue/' + payload.id + '/' + payload.column,
+                url: BASE_URL + '/issue/' + payload.id + '/restore',
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 withCredentials: true
             })
-            .then(function (response) {
+            .then((response) => {
+                payload.column = 'wait';
                 state.cards.push(payload);
                 store.commit('updateColumn');
                 store.dispatch('getArchive');
@@ -151,7 +152,7 @@ var store = new Vuex.Store({
                 headers: {'X-Requested-With': 'XMLHttpRequest'},
                 withCredentials: true
             })
-            .then(function (response) {
+            .then((response) => {
                 UIkit.notification("Задача удалена", {pos: 'bottom-right'});
                 store.dispatch('getArchive');
             });

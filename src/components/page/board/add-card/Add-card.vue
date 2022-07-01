@@ -96,11 +96,10 @@
                     this.$store.commit('addCard', {
                         card: {
                             title: this.title,
-                            column: this.listName,
+                            column: this.column,
                             project: this.project,
                             assignee: this.assignee,
                             deadline: this.deadline,
-                            column: this.listName,
                             ready: false, 
                             description: ""
                         },
