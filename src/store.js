@@ -4,7 +4,7 @@ import axios from 'axios';
 import UIkit from 'uikit';
 import moment from 'moment';
 
-let socket = new WebSocket('wss://task.sbtest.ru/api/ws');
+let socket = new WebSocket(WS_URL);
 let socketId = 0;
 let timer;
 
@@ -128,6 +128,32 @@ var store = new Vuex.Store({
                         store.dispatch('getArchive');
                     });
                 }
+            });
+        },
+        restoreCard: function(state, payload) {
+            axios({
+                method: 'POST',
+                url: BASE_URL + '/issue/' + payload.id + '/' + payload.column,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true
+            })
+            .then(function (response) {
+                state.cards.push(payload);
+                store.commit('updateColumn');
+                store.dispatch('getArchive');
+                UIkit.notification("Задача возвращена в работу", {pos: 'bottom-right'});
+            });
+        },
+        removeFromArchive: function(state, payload) {
+            axios({
+                method: 'DELETE',
+                url: BASE_URL + '/project/' + payload.project.id + '/archive/' + payload.id,
+                headers: {'X-Requested-With': 'XMLHttpRequest'},
+                withCredentials: true
+            })
+            .then(function (response) {
+                UIkit.notification("Задача удалена", {pos: 'bottom-right'});
+                store.dispatch('getArchive');
             });
         },
         addComment: function(state, payload) {

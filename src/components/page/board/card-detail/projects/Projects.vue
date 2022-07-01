@@ -4,7 +4,7 @@
             <div class="sidebar-list-icon sidebar-list-icon--project"></div>
             <span>{{renderProject.name}}</span>
         </div>
-        <div class="assignee-clear" @click="clear" v-if="renderProject !== null"></div>
+        <!-- <div class="assignee-clear" @click="clear" v-if="renderProject !== null"></div> -->
         <div class="project-select--add" v-if="renderProject == null" @click="toggleList">
             <span>Добавить в проект</span>
         </div>

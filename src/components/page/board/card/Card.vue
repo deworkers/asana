@@ -1,6 +1,6 @@
 <template>
     <div class="board-card item" @click.self="select">
-        <button class="card-remove" @click="removeCard">
+        <button v-if="column != 'archive'" class="card-remove" @click="removeCard">
             <span class="uk-icon" uk-icon="trash"></span>
         </button>
         <div class="card-body">
@@ -36,7 +36,7 @@
         },
         props: {
             card: Object,
-            listName: String
+            column: String
         },
         components: {
             Calendar,
@@ -57,11 +57,11 @@
             },
             removeCard() {
                 this.$store.commit('removeCard', {
-                    listName: this.listName,
                     id: this.card.id
                 });
             },
             select() {
+                this.card.isArchive = this.column == 'archive' ? true : false;
                 this.$store.commit('showDetail', this.card);
             },
             updateParam(newValue, param) {

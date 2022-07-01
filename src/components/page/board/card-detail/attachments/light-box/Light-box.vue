@@ -8,7 +8,7 @@
                     :src="baseUrl + image.url" 
                     width="100" 
                     alt="">
-                    <a :download="image.name" :href="baseUrl + '/files/' + image.name">Скачать</a>
+                    <a :download="image.name" :href="IMG_URL + image.name">Скачать</a>
                     <div class="attachment-one__delete" @click="remove(image.id)">Удалить</div>
             </div>
         </div>
@@ -36,7 +36,6 @@
         },
         data() {
             return {
-                baseUrl: 'https://task.sbtest.ru',
                 activeImg: null
             }
         },

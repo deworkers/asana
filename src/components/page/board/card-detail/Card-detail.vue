@@ -4,9 +4,8 @@
             <Top 
                 :hide="hide"
                 :updateParam="updateParam"
-                :id="cardDetail.id"
-                :isCard="isCard"
-                :ready="cardDetail.ready">
+                :card="cardDetail"
+                :isCard="isCard">
             </Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">

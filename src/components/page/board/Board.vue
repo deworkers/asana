@@ -7,13 +7,13 @@
                     <Card
                         v-for="(card, index) in col.cards"
                         :key="card.id"
-                        :listName="col.listName"
+                        :column="col.listName"
                         :card="card"
                     ></Card>
                     <AddCard 
                         slot="footer" 
                         key="footer"
-                        :listName="col.listName">
+                        :column="col.listName">
                     </AddCard>
                 </draggable>
             </div>
@@ -23,7 +23,7 @@
                     <Card
                         v-for="(card, index) in archive"
                         :key="card.id"
-                        :listName="'archive'"
+                        :column="'archive'"
                         :card="card"
                     ></Card>
                 </div>

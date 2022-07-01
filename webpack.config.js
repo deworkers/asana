@@ -41,7 +41,9 @@ module.exports = {
             filename: '[name].css?v=[hash]'
         }),
         new webpack.DefinePlugin({
-            BASE_URL: '"https://task.sbtest.ru/api"'
+            BASE_URL: '"https://task.sbtest.ru/api"',
+            IMG_URL: '"https://task.sbtest.ru/files/"',
+            WS_URL: '"wss://task.sbtest.ru/api/ws"'
         })
     ],
     resolve: {
@@ -51,6 +53,14 @@ module.exports = {
         },
         modules: ["node_modules"]
     },
-    devtool: 'source-map'
+    devtool: 'source-map',
+    devServer: {
+        static: {
+          directory: path.join(__dirname, '/dist/'),
+        },
+        compress: true,
+        port: 9000,
+        hot: true,
+    }
     
 };

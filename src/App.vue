@@ -22,18 +22,16 @@
         methods: {
             checkAuth() {
                 axios({
-                    method: 'post',
+                    method: 'get',
                     url: BASE_URL + '/auth',
                     headers: {'X-Requested-With': 'XMLHttpRequest'},
                     withCredentials: true
                 }).then((response) => {
                     if (response.data.success) {
-                        if (response.data.success) {
-                            this.$store.commit('updateIsAuth', true);
-                            this.$store.commit('updateState');
-                        } else {
-                            this.$router.replace({ name: 'login' }).catch(()=>{});
-                        }
+                        this.$store.commit('updateIsAuth', true);
+                        this.$store.commit('updateState');
+                    } else {
+                        this.$router.replace({ name: 'login' }).catch(()=>{});
                     }
                 }).catch((error) => {
                     this.$router.replace({ name: 'login' }).catch(()=>{});
