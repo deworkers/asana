@@ -5,7 +5,7 @@ import UIkit from 'uikit';
 import moment from 'moment';
 
 let socket = new WebSocket(WS_URL);
-let socketId = 0;
+let socketId = Math.floor(Math.random() * 10000);
 let timer;
 
 Vue.use(Vuex);
@@ -153,6 +153,7 @@ var store = new Vuex.Store({
                 withCredentials: true
             })
             .then((response) => {
+                state.showDetail = false;
                 UIkit.notification("Задача удалена", {pos: 'bottom-right'});
                 store.dispatch('getArchive');
             });
@@ -182,7 +183,7 @@ var store = new Vuex.Store({
                 data: card
             })
             .then(function (response) {
-                console.log(response.data);
+                // console.log(response.data);
             }).catch(function (error) {
                 console.log(error);
             });
@@ -472,12 +473,13 @@ var store = new Vuex.Store({
             }
 
             socket.onmessage = (event) => {
-                console.log(event);
-                // clearTimeout(timer);
-                // timer = setTimeout(() => {
-                //     let patch = location.hash.replace('#', '');
-                //     store.dispatch('getCards', patch == '/' ? '/user/issues' : patch );
-                // }, 1000);
+                //console.log(event);
+                clearTimeout(timer);
+                timer = setTimeout(()=> {
+                    console.log('ws update')
+                    let patch = location.hash.replace('#', '');
+                    store.dispatch('getCards', patch == '/' ? '/user/issues' : patch );
+                }, 1000) 
             };
               
         }
