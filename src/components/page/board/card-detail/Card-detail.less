@@ -77,6 +77,10 @@ div.ql-container.ql-snow {
     border: none;
 }
 
+div.ql-snow .ql-tooltip {
+    z-index: 10;
+}
+
 .card-detail-title {
     padding: 0 10px;
     margin: 25px 0;
@@ -182,6 +186,9 @@ div.ql-container.ql-snow {
     div.ql-editor {
         min-height: 30px;
         padding: 4px 8px 35px;
+        &:focus {
+            min-height: 100px;
+        }
     }
 
     div.quillWrapper .ql-snow.ql-toolbar {
