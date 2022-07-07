@@ -21,6 +21,15 @@
                 </div>
             </div>
         </div>
+	 	<div class="page-alerts-block">
+		 	<div class="uk-alert-danger" uk-alert v-if="!socketOpen">
+		  		<a class="uk-alert-close" uk-close></a>
+		  		<p>
+				    WebSocket не подключен. Автоматическое обновление карточек недоступно <button @click="socketSend" class="uk-button uk-button-primary uk-button-small uk-margin-left">Подключиться</button>
+				</p>
+		 	</div>
+		</div>
+
         <Board></Board>
     </div>
 </template>
@@ -40,12 +49,14 @@
         },
         computed: {
             showSide() {
-                return this.$store.state.showSide
+                return this.$store.state.showSide;
             },
             activeBoard() {
-                return this.$store.state.activeBoard
+                return this.$store.state.activeBoard;
             },
-            
+            socketOpen() {
+                return this.$store.state.socketOpen;
+            }
         },
         methods: {
             toogleSide() {
@@ -53,7 +64,10 @@
             },
             initials(str) {
                 return str.split(/\s+/).map((item,i) => item[0].toUpperCase()).join('');
-            }
+            },
+	        socketSend() {
+				this.$store.dispatch('socketSend');
+	        }
         },
         mounted() {
             

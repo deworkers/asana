@@ -10,7 +10,7 @@
                 <button uk-icon="icon: close" @click="remove"></button>
             </div>
         </div>
-        <div v-if="!editing" class="comment-one-bottom" v-html="message.data.text"></div>
+        <div v-if="!editing" class="comment-one-bottom" v-html="transformHtml(message.data.text)"></div>
         <vue-editor 
             v-if="editing"
             v-model="message.data.text" 
@@ -32,7 +32,7 @@
             return {
                 editing: false,
                 customToolbar: [
-                    ["bold", "italic", "underline"],
+                    ["bold", "italic", "underline", 'strike'],
                     [{ list: "ordered" }, { list: "bullet" }],
                     ["image", "code-block", "blockquote", "link"]
                 ]
@@ -83,6 +83,16 @@
                 .then((response) => {
                     this.$store.dispatch('getJournal', this.cardId);
                 });
+            },
+            transformHtml(html) {
+                let regexp = /((https?:\/\/|(www\.))[^\s<>";]+)/gim;
+                return html.replaceAll(regexp, (match, p1, p2, p3, offset, input) => {
+                    if (input.slice(offset - 1, offset) != '"' ) {
+                        return `<a  href="${match}" rel="noopener noreferrer" target="_blank">${match}</a>`
+                    } else {
+                        return `${match}`;
+                    }
+                })
             }
         },
         mounted() {

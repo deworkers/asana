@@ -63,7 +63,7 @@
             }
         },
         props: {
-            listName: String
+            column: String
         },
         directives: {
             clickOutside: ClickOutside.directive

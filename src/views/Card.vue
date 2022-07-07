@@ -9,7 +9,7 @@
 
 <script>
     import Sidebar from './../components/sidebar/Sidebar.vue';
-    import CardDetail from './../components/page//board/card-detail/Card-detail.vue';
+    import CardDetail from './../components/page/board/card-detail/Card-detail.vue';
 
     export default {
         name: 'app',

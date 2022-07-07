@@ -1,6 +1,6 @@
 <template>
     <transition name="slideRight" v-if="cardDetail">
-        <div :class="['card-detail', isCard ? 'card-detail--veiw':'']" v-if="showDetail || isCard" v-click-outside="hide">
+        <div :class="['card-detail', isCard ? 'card-detail--view':'']" v-if="showDetail || isCard" v-click-outside="hide">
             <Top 
                 :hide="hide"
                 :updateParam="updateParam"
@@ -9,7 +9,7 @@
             </Top>
             <div class="card-detail-body">
                 <div class="card-detail-title">
-                    <div class="shadow">{{title}}</div>
+                    <div class="shadow">{{$store.state.cardDetail.title}}</div>
                     <textarea v-model="$store.state.cardDetail.title"></textarea>
                 </div>
 
@@ -44,7 +44,7 @@
                     <div class="card-detail-info__title">Проекты</div>
                     <div class="card-detail-info__text">
                         <Projects 
-                            :project="cardDetail.project != undefined ? cardDetail.project : null"
+                            :project="cardDetail.project !== undefined ? cardDetail.project : null"
                             :updateParam="updateParam">
                         </Projects>
                     </div>
@@ -52,29 +52,28 @@
 
                 
                 <div class="card-tab-list">
-                    <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive == 'description'? 'active' : '']">Описание</div>
-                    <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive == 'time'? 'active' : '']">Тайм-трекер {{timeSpentTotal}}</div>
-                    <div @click="setActiveTab('attachments')" :class="['card-tab-list__one', tabActive == 'attachments'? 'active' : '']">Вложения</div>
+                    <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive === 'description'? 'active' : '']">Описание</div>
+                    <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive === 'time'? 'active' : '']">Тайм-трекер {{timeSpentTotal}}</div>
+                    <div @click="setActiveTab('attachments')" :class="['card-tab-list__one', tabActive === 'attachments'? 'active' : '']">Вложения</div>
                 </div>
                 <div class="card-tab-body">
-                    <div class="card-editor" v-show="tabActive == 'description'">
+                    <div class="card-editor" v-show="tabActive === 'description'">
                         <vue-editor
                             v-model="$store.state.cardDetail.description" 
                             :editor-toolbar="customToolbar">
                         </vue-editor>
                     </div>
-                    <div class="time-tracker"  v-show="tabActive == 'time'">
+                    <div class="time-tracker"  v-show="tabActive === 'time'">
                         <Timer 
                             :title="cardDetail.title" 
                             :id="cardDetail.id">
                         </Timer>
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
-                    <div class="attachments"  v-show="tabActive == 'attachments'">
+                    <div class="attachments"  v-show="tabActive === 'attachments'">
                         <Attachments :id="cardDetail.id"></Attachments> 
                     </div>
                 </div>
-
 
                 <MessageList v-if="journal" :messages="journal"></MessageList>
             </div>
@@ -107,7 +106,7 @@
                 content: null,
                 title: '',
                 customToolbar: [
-                    ["bold", "italic", "underline"],
+                    ["bold", "italic", "underline", 'strike'],
                     [{ list: "ordered" }, { list: "bullet" }],
                     ["image", "code-block", "blockquote", "link"]
                 ],
@@ -149,6 +148,9 @@
             timeSpentTotal() {
                 return moment.utc(this.$store.state.timeSpentTotal*1000).format('HH:mm:ss');
             },
+            id() {
+                return this.$store.state.cardDetail ? this.$store.state.cardDetail.id : null;
+            }
         },
         methods: {
             hide(event) {
@@ -161,6 +163,7 @@
                 this.cardDetail[param] = newValue;
             },
             updateCard() {
+                this.cardDetail.description = this.transformHtml(this.cardDetail.description);
                 this.$store.commit('updateCard', this.cardDetail);
             },
             setActiveTab(tab) {
@@ -188,12 +191,26 @@
                     }
                 }        
                 return propertiesInA == propertiesInB;
-            }
+            },
+            transformHtml(html) {
+                let regexp = /((https?:\/\/|(www\.))[^\s<>";]+)/gim;
+                return html.replaceAll(regexp, (match, p1, p2, p3, offset, input) => {
+                    if (input.slice(offset - 1, offset) !== '"' ) {
+                        return `<a  href="${match}" rel="noopener noreferrer" target="_blank">${match}</a>`
+                    } else {
+                        return `${match}`;
+                    }
+                })
+            },
         },
+        
         watch: {
             cardDetail(newValue, oldValue) {
                 this.title = this.$store.state.cardDetail.title;
                 this.content = this.$store.state.cardDetail.description;
+            },
+            id() {
+                this.updateCard();
             }
         }
     }

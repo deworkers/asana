@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import UIkit from 'uikit';
 import moment from 'moment';
+import {f} from "vuedraggable/dist/vuedraggable.common";
 
 let socket = new WebSocket(WS_URL);
 let socketId = Math.floor(Math.random() * 10000);
@@ -45,7 +46,8 @@ var store = new Vuex.Store({
         timeSpentTotal: null,
         attachments: null,
         timingTask: null,
-        timingStart: false
+        timingStart: false,
+        socketOpen: false
     },
     mutations: {
         toogleSide: function(state, payload) {
@@ -311,25 +313,6 @@ var store = new Vuex.Store({
                 .then((response) => {
                     store.commit('updateActiveBoard', response.data);
                     store.dispatch('getArchive');
-
-                    // socket.send(JSON.stringify({
-                    //     action: "unsubscribe",
-                    //     id: ++socketId,
-                    //     payload: {
-                    //         type: "*",
-                    //         id: "*"
-                    //     }
-                    // }));
-
-                    // socket.send(JSON.stringify({
-                    //     action: "subscribe",
-                    //     id: ++socketId,
-                    //     payload: {
-                    //         type: store.state.activeBoardType,
-                    //         id: response.data.id
-                    //     }
-                    // }));
-                    
                     resolve();
                 });
             });
@@ -451,24 +434,31 @@ var store = new Vuex.Store({
                 });
             });
         },
+        socketSend: function (context, payload) {
+            socket.send(JSON.stringify({
+                action: "subscribe",
+                id: ++socketId,
+                payload: {
+                    type: '*',
+                    id: '*'
+                }
+            }));
+        },
         openWebSocket: function(context, payload) {
             socket.onopen = function () {
-                UIkit.notification("socket подключен", {pos: 'bottom-right'});
-                socket.send(JSON.stringify({
-                    action: "subscribe",
-                    id: ++socketId,
-                    payload: {
-                        type: '*',
-                        id: '*'
-                    }
-                }));
+                store.dispatch('socketSend').then(() => {
+                    UIkit.notification("socket подключен", {pos: 'bottom-right'});
+                    store.state.socketOpen = true;
+                });
             }
 
             socket.onerror = function () {
+                store.state.socketOpen = false;
                 console.error('Websocket has been disconnected', arguments);
             }
 
             socket.onclose = function () {
+                store.state.socketOpen = false;
                 console.error('Websocket has been closed', arguments);
             }
 
