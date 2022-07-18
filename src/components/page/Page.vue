@@ -25,7 +25,7 @@
 		 	<div class="uk-alert-danger" uk-alert v-if="!socketOpen">
 		  		<a class="uk-alert-close" uk-close></a>
 		  		<p>
-				    WebSocket не подключен. Автоматическое обновление карточек недоступно <button @click="socketSend" class="uk-button uk-button-primary uk-button-small uk-margin-left">Подключиться</button>
+				    WebSocket не подключен. Автоматическое обновление карточек недоступно <button @click="openWebSocket" class="uk-button uk-button-primary uk-button-small uk-margin-left">Подключиться</button>
 				</p>
 		 	</div>
 		</div>
@@ -65,8 +65,8 @@
             initials(str) {
                 return str.split(/\s+/).map((item,i) => item[0].toUpperCase()).join('');
             },
-	        socketSend() {
-				this.$store.dispatch('socketSend');
+	        openWebSocket() {
+				this.$store.dispatch('openWebSocket');
 	        }
         },
         mounted() {

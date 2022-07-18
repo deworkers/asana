@@ -50,11 +50,9 @@
                     </div>
                 </div>
 
-                
                 <div class="card-tab-list">
                     <div @click="setActiveTab('description')" :class="['card-tab-list__one', tabActive === 'description'? 'active' : '']">Описание</div>
                     <div @click="setActiveTab('time')" :class="['card-tab-list__one', tabActive === 'time'? 'active' : '']">Тайм-трекер {{timeSpentTotal}}</div>
-                    <div @click="setActiveTab('attachments')" :class="['card-tab-list__one', tabActive === 'attachments'? 'active' : '']">Вложения</div>
                 </div>
                 <div class="card-tab-body">
                     <div class="card-editor" v-show="tabActive === 'description'">
@@ -70,10 +68,9 @@
                         </Timer>
                         <TimeSpent :id="cardDetail.id"></TimeSpent>                    
                     </div>
-                    <div class="attachments"  v-show="tabActive === 'attachments'">
-                        <Attachments :id="cardDetail.id"></Attachments> 
-                    </div>
                 </div>
+                
+                <Attachments :id="cardDetail.id"></Attachments> 
 
                 <MessageList v-if="journal" :messages="journal"></MessageList>
             </div>
@@ -193,14 +190,18 @@
                 return propertiesInA == propertiesInB;
             },
             transformHtml(html) {
-                let regexp = /((https?:\/\/|(www\.))[^\s<>";]+)/gim;
-                return html.replaceAll(regexp, (match, p1, p2, p3, offset, input) => {
-                    if (input.slice(offset - 1, offset) !== '"' ) {
-                        return `<a  href="${match}" rel="noopener noreferrer" target="_blank">${match}</a>`
-                    } else {
-                        return `${match}`;
-                    }
-                })
+                if (html != null) {
+                    let regexp = /((https?:\/\/|(www\.))[^\s<>";]+)/gim;
+                    return html.replaceAll(regexp, (match, p1, p2, p3, offset, input) => {
+                        if (input.slice(offset - 1, offset) !== '"' ) {
+                            return `<a  href="${match}" rel="noopener noreferrer" target="_blank">${match}</a>`
+                        } else {
+                            return `${match}`;
+                        }
+                    })
+                } else {
+                    return html;
+                }
             },
         },
         

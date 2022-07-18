@@ -3,11 +3,10 @@ import Vuex from 'vuex';
 import axios from 'axios';
 import UIkit from 'uikit';
 import moment from 'moment';
-import {f} from "vuedraggable/dist/vuedraggable.common";
 
-let socket = new WebSocket(WS_URL);
 let socketId = Math.floor(Math.random() * 10000);
 let timer;
+let socket;
 
 Vue.use(Vuex);
 
@@ -445,6 +444,7 @@ var store = new Vuex.Store({
             }));
         },
         openWebSocket: function(context, payload) {
+            socket = new WebSocket(WS_URL);
             socket.onopen = function () {
                 store.dispatch('socketSend').then(() => {
                     UIkit.notification("socket подключен", {pos: 'bottom-right'});

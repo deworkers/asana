@@ -1,5 +1,8 @@
 <template>
     <div class="message-list">
+        <div class="message-list-title">
+            Комментарии и уведомления
+        </div> 
         <div v-for="message in messages" class="message-list-one">
             <Comment v-if="message.type == 'comment'" :message="message"></Comment>
             <Change v-if="message.type == 'change_column'" :message="message"></Change>

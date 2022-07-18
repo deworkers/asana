@@ -1,5 +1,8 @@
 <template>
     <div class="attachment-body">
+        <div class="attachment-title">
+            Вложения
+        </div>
         <LightBox :id="id" :images="attachments"></LightBox>
         <Upload :id="id"></Upload>
     </div>

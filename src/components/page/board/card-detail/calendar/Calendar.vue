@@ -68,6 +68,11 @@
             },
             clear() {
                 this.date = null;
+            },
+            parseDate(input) {
+                let date = moment(input);
+                let time = date.hours() == NaN && date.minutes() == NaN ? '00:00' : date.locale("ru").format(" HH:mm");
+                return date.locale("ru").format("YYYY-MM-DD") + time;
             }
         },
         watch: {
@@ -77,8 +82,13 @@
                 })
             },
             deadline(newValue, oldValue) {
-                this.date = this.deadline;
+                this.date = this.parseDate(this.deadline);
             }
-        }
+        },
+        mounted () {
+            if (this.deadline) {
+                this.date = this.parseDate(this.deadline);
+            }
+        },
     }
 </script>
